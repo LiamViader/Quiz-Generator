@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import QuizIcon from '@mui/icons-material/Quiz';
 
-const pages = ['My Quizs', 'About'];
+const pages = ['My Quizzes', 'About'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -36,10 +36,10 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static" >
+    <AppBar position="static"sx={{backgroundColor: '#051923'}} >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <QuizIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }} />
+          <QuizIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2, color: '#7fffd4' }} />
           <Typography
             variant="h6"
             noWrap
@@ -49,7 +49,7 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: '#7fffd4',
               textDecoration: 'none',
             }}
           >
@@ -92,7 +92,7 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
-          <QuizIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <QuizIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: '#7fffd4' }} />
           <Typography
             variant="h5"
             noWrap
@@ -103,7 +103,7 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: '#7fffd4',
               textDecoration: 'none',
             }}
           >
@@ -114,7 +114,7 @@ function ResponsiveAppBar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: 'block', fontSize: '1rem' }}
               >
                 {page}
               </Button>
