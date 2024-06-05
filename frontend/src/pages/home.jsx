@@ -2,10 +2,9 @@ import React from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import { Typography } from '@mui/material';
 import { FilePondComponent } from '../components/FilePondComponent';
-import useConfig from '../hooks/useConfig';
 
 function Home(){
-    const { apiUrl } = useConfig();
+
     return (
         <>      
             <ResponsiveAppBar/>
@@ -16,7 +15,7 @@ function Home(){
                 Drop a PDF file containing information on a topic you want to generate a quiz from.
             </Typography>
             <Typography textAlign="center" variant="body1" sx={{ fontSize: '0.8rem',marginTop: '0.3rem', color:'#999999' }}>
-                {apiUrl}
+                QUE CONY PASSA
             </Typography>
             <div style={{ maxWidth: '40rem', margin: 'auto', marginTop: '2rem' }}>
                 <FilePondComponent />
