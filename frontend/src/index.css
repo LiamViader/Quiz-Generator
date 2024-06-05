@@ -5,7 +5,7 @@ body{
 
 .drop-container {
   min-height: 100%;
-	display: flex;
+	display: block;
   flex-direction: column;
   margin: 50px auto;
   width: 400px;
@@ -35,5 +35,9 @@ body{
   flex-direction: column;
   justify-content: center;
   height: 10px;
+}
+
+.filepond--root .filepond--credits {
+  display: none !important;
 }
 
