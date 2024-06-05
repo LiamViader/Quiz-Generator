@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'frontend/**'  # Solo se activa cuando hay cambios en el directorio /backend
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
