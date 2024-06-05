@@ -110,7 +110,7 @@ export function FilePondComponent() {
         maxFiles={1}
         server="https://httpbin.org/post"
         name="files"
-        labelIdle='Drag & Drop your PDF file or <span class="filepond--label-action">Browse</span>'
+        labelIdle={apiUrl}
       />
     </div>
   );
