@@ -29,55 +29,59 @@ registerPlugin(
 
 // Our app
 export function FilePondComponent() {
-  const [files, setFiles] = useState([]);
-  // console.log("files", files);
-  let pond = null;
+    const [files, setFiles] = useState([]);
+    // console.log("files", files);
+    let pond = null;
 
-  const onSubmit = () => {
-    const formData = new FormData();
-    // files
-    //   .map((item) => item.file)
-    //   .forEach((file) => formData.append("my-file", file));
-    // console.log(formData);
-    console.log("pond", pond);
-
-    if (pond) {
-      // pond.setOptions({
-      //   server: {
-      //     url: "https://httpbin.org/post",
-      //     timeout: 7000
-      //     // process: {
-      //     //   url: "./process",
-      //     //   method: "POST",
-      //     //   headers: {
-      //     //     "x-customheader": "Hello World"
-      //     //   },
-      //     //   withCredentials: false,
-      //     //   onload: (response) => response.key,
-      //     //   onerror: (response) => response.data,
-      //     //   ondata: (formData) => {
-      //     //     formData.append("Hello", "World");
-      //     //     return formData;
-      //     //   }
-      //     // },
-      //     // revert: "./revert",
-      //     // restore: "./restore/",
-      //     // load: "./load/",
-      //     // fetch: "./fetch/"
-      //   }
-      // });
-
-      const files = pond.getFiles();
-      files.forEach((file) => {
-        console.log("each file", file, file.getFileEncodeBase64String());
-      });
-
-      pond
-        .processFiles(files)
-        .then((res) => console.log(res))
-        .catch((error) => console.log("err", error));
+    const onFilesChanged = (files) =>{
+        console.log("asdsadsad")
     }
-  };
+
+    const onSubmit = () => {
+        const formData = new FormData();
+        // files
+        //   .map((item) => item.file)
+        //   .forEach((file) => formData.append("my-file", file));
+        // console.log(formData);
+        console.log("pond", pond);
+
+        if (pond) {
+            // pond.setOptions({
+            //   server: {
+            //     url: "https://httpbin.org/post",
+            //     timeout: 7000
+            //     // process: {
+            //     //   url: "./process",
+            //     //   method: "POST",
+            //     //   headers: {
+            //     //     "x-customheader": "Hello World"
+            //     //   },
+            //     //   withCredentials: false,
+            //     //   onload: (response) => response.key,
+            //     //   onerror: (response) => response.data,
+            //     //   ondata: (formData) => {
+            //     //     formData.append("Hello", "World");
+            //     //     return formData;
+            //     //   }
+            //     // },
+            //     // revert: "./revert",
+            //     // restore: "./restore/",
+            //     // load: "./load/",
+            //     // fetch: "./fetch/"
+            //   }
+            // });
+
+            const files = pond.getFiles();
+            files.forEach((file) => {
+            console.log("each file", file, file.getFileEncodeBase64String());
+            });
+
+            pond
+            .processFiles(files)
+            .then((res) => console.log(res))
+            .catch((error) => console.log("err", error));
+        }
+    };
 
   return (
     <div className="App">
@@ -96,16 +100,14 @@ export function FilePondComponent() {
           })
         }
         allowFileEncode
-        onupdatefiles={setFiles}
+        onupdatefiles={(files) => onFilesChanged(files)}
         instantUpload={false}
         allowMultiple={false}
         maxFiles={1}
         server="https://httpbin.org/post"
         name="files"
-        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+        labelIdle='Drag & Drop your PDF file or <span class="filepond--label-action">Browse</span>'
       />
-
-      <button onClick={onSubmit}>Submit</button>
     </div>
   );
 }

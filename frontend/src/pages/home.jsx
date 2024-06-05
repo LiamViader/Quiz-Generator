@@ -16,7 +16,9 @@ function Home(){
             <Typography textAlign="center" variant="body1" sx={{ fontSize: '0.8rem',marginTop: '0.3rem', color:'#999999' }}>
                 Quizzes are generated using gpt-3.5. The generated correct answers have an accuracy of 98.5%
             </Typography>
-            <FilePondComponent />
+            <div style={{ maxWidth: '50rem', margin: 'auto', marginTop: '2rem' }}>
+                <FilePondComponent />
+            </div>
         </>
     )
 }

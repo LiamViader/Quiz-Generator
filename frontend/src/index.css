@@ -1,6 +1,6 @@
 body{
   margin: 0;
-  background-color:azure;
+  background-color:#f0ffff;
 }
 
 .drop-container {
@@ -41,3 +41,6 @@ body{
   display: none !important;
 }
 
+.filepond--panel-root {
+  background-color: #e0f0f0 !important;
+}
