@@ -19,7 +19,7 @@ import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 
-import useConfig from '../hooks/useConfig';
+import config from '../config.json';
 
 // Register the plugins
 registerPlugin(
@@ -31,7 +31,7 @@ registerPlugin(
 // Our app
 export function FilePondComponent() {
 
-    const { apiUrl } = useConfig();
+    const apiUrl = config.REACT_APP_API_URL;
 
     const [files, setFiles] = useState([]);
     // console.log("files", files);
@@ -110,7 +110,7 @@ export function FilePondComponent() {
         maxFiles={1}
         server="https://httpbin.org/post"
         name="files"
-        labelIdle={apiUrl}
+        labelIdle='Drag & Drop your PDF file or <span class="filepond--label-action">Browse</span>'
       />
     </div>
   );
