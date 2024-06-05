@@ -1,6 +1,6 @@
 const useConfig = () => {
     return {
-        apiUrl: process.env.REACT_APP_API_URL
+        apiUrl: typeof process !== 'undefined' ? process.env.REACT_APP_API_URL : "http://localhost:3000"
     };
   };
   
