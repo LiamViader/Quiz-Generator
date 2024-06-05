@@ -16,12 +16,11 @@ function Home(){
                 Drop a PDF file containing information on a topic you want to generate a quiz from.
             </Typography>
             <Typography textAlign="center" variant="body1" sx={{ fontSize: '0.8rem',marginTop: '0.3rem', color:'#999999' }}>
-                Quizzes are generated using gpt-3.5. The generated correct answers have an accuracy of 98.5%
+                {apiUrl}
             </Typography>
             <div style={{ maxWidth: '40rem', margin: 'auto', marginTop: '2rem' }}>
                 <FilePondComponent />
             </div>
-            <h1>{apiUrl}</h1>
         </>
     )
 }
