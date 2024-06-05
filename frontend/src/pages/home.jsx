@@ -2,9 +2,10 @@ import React from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import { Typography } from '@mui/material';
 import { FilePondComponent } from '../components/FilePondComponent';
+import useConfig from '../hooks/useConfig';
 
 function Home(){
-
+    const { apiUrl } = useConfig();
     return (
         <>      
             <ResponsiveAppBar/>
@@ -20,6 +21,7 @@ function Home(){
             <div style={{ maxWidth: '40rem', margin: 'auto', marginTop: '2rem' }}>
                 <FilePondComponent />
             </div>
+            <h1>{apiUrl}</h1>
         </>
     )
 }
