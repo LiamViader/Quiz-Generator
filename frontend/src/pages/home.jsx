@@ -4,6 +4,8 @@ import { Typography } from '@mui/material';
 import { FilePondComponent } from '../components/FilePondComponent';
 
 function Home(){
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     return (
         <>      
             <ResponsiveAppBar/>
