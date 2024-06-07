@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import { FilePondComponent } from '../components/FilePondComponent';
 
 function Home(){
-
+    const backendUrl = import.meta.env.VITE_API_URL;
     return (
         <>      
             <ResponsiveAppBar/>
@@ -20,6 +20,7 @@ function Home(){
             <div style={{ maxWidth: '40rem', margin: 'auto', marginTop: '2rem' }}>
                 <FilePondComponent />
             </div>
+            <h1>{backendUrl}</h1>
         </>
     )
 }

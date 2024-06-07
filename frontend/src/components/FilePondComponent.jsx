@@ -19,7 +19,6 @@ import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 
-import config from '../config.json';
 
 // Register the plugins
 registerPlugin(
@@ -30,8 +29,6 @@ registerPlugin(
 
 // Our app
 export function FilePondComponent() {
-
-    const apiUrl = config.REACT_APP_API_URL;
 
     const [files, setFiles] = useState([]);
     // console.log("files", files);
