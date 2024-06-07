@@ -46,8 +46,8 @@ function FormQuizGenerator(){
                     <TextField onChange={handleTopicChange} value={topicInput} sx={{marginRight:'1rem', backgroundColor: 'white', width:'100%'}} fullWidth id="quizGenInput" label="Your Topic" variant="outlined" required placeholder="e.g Cloud computing and distributed systems" InputLabelProps={{ shrink: true }} inputProps={{ maxLength: 50 }}/>
                 </Grid>
                 <Grid item xs={1}>
-                    <div style={{display: 'flex',flexDirection: 'column', marginLeft:'0.2rem'}}>
-                        <IconButton onClick={randomTopic} aria-label="reroll"  sx={{ color:'#44ad8a'}}>
+                    <div style={{display: 'flex',flexDirection: 'column'}}>
+                        <IconButton onClick={randomTopic} aria-label="reroll"  sx={{ color:'#44ad8a', marginLeft: 'auto', marginRight: 'auto'}}>
                             <ChangeIcon />
                         </IconButton>
                         <Typography textAlign="center" variant="h2" sx={{ fontSize: '10px', color:'#051923'}}>
