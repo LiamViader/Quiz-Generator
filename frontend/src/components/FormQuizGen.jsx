@@ -1,7 +1,8 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Typography, TextField, IconButton, Slider, Grid, FormControl, MenuItem, InputLabel, Select, FormHelperText } from '@mui/material';
+import { Typography, TextField, IconButton, Slider, Grid, FormControl, MenuItem, InputLabel, Select, FormHelperText, Collapse } from '@mui/material';
 import ChangeIcon from '@mui/icons-material/ChangeCircle';
+import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 
 
 function FormQuizGenerator(){
@@ -12,6 +13,7 @@ function FormQuizGenerator(){
     const [exampleTopicIndex, setExampleTopicIndex] = useState(0);
     const [difficulty, setDifficulty] = useState("medium");
     const [language, setLanguage] = useState("english");
+    const [showingOptions, setShowingOptions] = useState(false);
 
     const handleSubmit = (event) =>{
 
@@ -39,6 +41,10 @@ function FormQuizGenerator(){
         setTopicInput(example_topics[exampleTopicIndex]);
     }
 
+    const toggleOptions = (event) =>{
+        setShowingOptions(prevOptions => !prevOptions)
+    }
+
     return (
         <form onSubmit={handleSubmit} style={{marginLeft:'auto', marginRight:'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '50rem', padding:'2rem'}} >
             <Grid container spacing={2}>
@@ -56,11 +62,16 @@ function FormQuizGenerator(){
                     </div>
                 </Grid>
             </Grid>
-            <div style={{marginTop:'1rem', display:'block', width: '100%'}}>
-                <Typography textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color:'#3b444b'}}>
-                    Options:
+            <div style={{display:'flex', flexDirection: 'row', alignItems: 'center', marginRight:'auto', marginTop: '0.5rem'}}>
+                <Typography textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color:'#3b444b', }}>
+                        More Options
                 </Typography>
-                <div style={{width:'90%', marginTop:'1rem', marginLeft: '7%'}}>
+                <IconButton onClick={toggleOptions} aria-label="toggleOptions"  sx={{ color:'#3b444b'}}>
+                    <ArrowDropDownCircleIcon/>
+                </IconButton>
+            </div>
+            <Collapse in={showingOptions} sx={{width:'100%'}}>
+                <div style={{marginTop:'1rem', display:'block', width:'90%', marginLeft: '7%'}}>
                     <Typography textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', color:'#3b444b'  }}>
                         Number of Questions:
                     </Typography>
@@ -96,7 +107,7 @@ function FormQuizGenerator(){
                         </Grid>
                     </div>
                 </div>
-            </div>
+            </Collapse >
             
         </form>
     );
