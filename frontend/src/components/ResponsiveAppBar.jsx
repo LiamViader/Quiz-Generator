@@ -36,7 +36,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static"sx={{backgroundColor: '#051923'}} >
+    <AppBar position="sticky" sx={{backgroundColor: '#051923'}} >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <QuizIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2, color: '#7fffd4' }} />
