@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
-import { Typography, TextField, IconButton } from '@mui/material';
+import { Typography, TextField, IconButton, Slider, Grid } from '@mui/material';
 import ChangeIcon from '@mui/icons-material/ChangeCircle';
 import axios from 'axios';
 
@@ -44,18 +44,38 @@ function Home(){
             <Typography textAlign="center" variant="body1" sx={{ fontSize: '0.8rem',marginTop: '0.5rem', color:'#999999' }}>
                 Quizzes are generated using gpt-3.5. The generated correct answers have an accuracy of 98.5%
             </Typography>
-            <form onSubmit={handleSubmit} style={{marginLeft:'auto', marginRight:'auto', marginTop: '2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center'}} >
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                    <TextField value={topicInput} sx={{flex: '1',marginRight:'1rem', backgroundColor: 'white'}} fullWidth id="quizGenInput" label="Your Topic" variant="outlined" required placeholder="e.g Cloud computing and distributed systems" InputLabelProps={{ shrink: true }} inputProps={{ maxLength: 50 }}/>
-                    <div style={{ flex: '0 0 auto', display: 'block'}}>
-                        <IconButton onClick={randomTopic} aria-label="reroll" color="secondary" sx={{position: 'relative', top: '7px', left: '1px'}}>
-                            <ChangeIcon />
-                        </IconButton>
-                        <Typography textAlign="center" variant="h2" sx={{ fontSize: '10px', marginTop: '0.8rem', color:'#2b2d42', position: 'relative', top: '-8px', left: '-6px' }}>
-                           example topic
+            <form onSubmit={handleSubmit} style={{marginLeft:'auto', marginRight:'auto', marginTop: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '50rem', padding:'3rem'}} >
+                <Grid container spacing={2}>
+                    <Grid xs={11} sx={{marginLeft: 'auto'}}>
+                        <TextField value={topicInput} sx={{marginRight:'1rem', backgroundColor: 'white', width:'100%'}} fullWidth id="quizGenInput" label="Your Topic" variant="outlined" required placeholder="e.g Cloud computing and distributed systems" InputLabelProps={{ shrink: true }} inputProps={{ maxLength: 50 }}/>
+                    </Grid>
+                    <Grid xs={1}>
+                        <div style={{display: 'flex',flexDirection: 'column', marginLeft:'0.2rem'}}>
+                            <IconButton onClick={randomTopic} aria-label="reroll" color="secondary" sx={{}}>
+                                <ChangeIcon />
+                            </IconButton>
+                            <Typography textAlign="center" variant="h2" sx={{ fontSize: '10px', color:'#2b2d42'}}>
+                            example topic
+                            </Typography>
+                        </div>
+                    </Grid>
+                </Grid>
+                <div style={{marginTop:'2rem', display:'block', width: '100%'}}>
+                    <Typography textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color:'#3b444b'}}>
+                        Options:
+                    </Typography>
+                    <div style={{width:'90%', marginTop:'1rem', marginLeft: '7%'}}>
+                        <Typography textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', color:'#3b444b'  }}>
+                            Number of Questions:
                         </Typography>
+                        <div style={{width: '90%', marginRight:'5%'}}>
+                            <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" sx={{ color: 'purple' }}/>
+                        </div>
                     </div>
                 </div>
+                
+
+
             </form>
             <div>
                 <h1>Datos desde el backend:</h1>
