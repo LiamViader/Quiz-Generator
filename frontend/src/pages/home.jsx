@@ -1,10 +1,21 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import { Typography } from '@mui/material';
 import { FilePondComponent } from '../components/FilePondComponent';
 
+import axios from 'axios';
+
 function Home(){
-    const backendUrl = import.meta.env.VITE_API_URL;
+    const backendUrl = import.meta.env.VITE_API_URL; //url de servidor backend
+
+    const [data, setData] = useState(null);
+    useEffect(() => {
+        axios.get(`${backendUrl}`) // Reemplaza "/api/endpoint" con tu endpoint real
+          .then(response => setData(response.data))
+          .catch(error => console.error('Error:', error));
+      }, [backendUrl]);
+
     return (
         <>      
             <ResponsiveAppBar/>
@@ -20,7 +31,10 @@ function Home(){
             <div style={{ maxWidth: '40rem', margin: 'auto', marginTop: '2rem' }}>
                 <FilePondComponent />
             </div>
-            <h1>{backendUrl}</h1>
+            <div>
+                <h1>Datos desde el backend:</h1>
+                {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Cargando...'}
+            </div>
         </>
     )
 }
