@@ -23,11 +23,11 @@ function Home(){
     return (
         <>  
             <ResponsiveAppBar/>
-            <div style={{paddingLeft:'1rem', paddingRight:'1rem', minWidth:'20rem', marginTop: '2rem',}}>
+            <div style={{paddingLeft:'1rem', paddingRight:'1rem', minWidth:'20rem', marginTop: '3rem',}}>
                 <Typography textAlign="center" variant="h1" sx={{ fontSize: '2.7rem', fontWeight: 'bold',  color:'#2b2d42'  }}>
                     Automatic quiz generator 
                 </Typography>
-                <Typography textAlign="center" variant="h2" sx={{ fontSize: '1.5rem', marginTop: '0.8rem', color:'#2b2d42' }}>
+                <Typography textAlign="center" variant="h2" sx={{ fontSize: '1.1rem', marginTop: '0.8rem', color:'#2b2d42' }}>
                     Generate a quiz from a given topic or explanation
                 </Typography>
                 <Typography textAlign="center" variant="body1" sx={{ fontSize: '0.8rem',marginTop: '0.5rem', color:'#999999' }}>
