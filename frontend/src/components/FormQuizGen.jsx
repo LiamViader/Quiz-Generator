@@ -40,7 +40,7 @@ function FormQuizGenerator(){
     }
 
     return (
-        <form onSubmit={handleSubmit} style={{marginLeft:'auto', marginRight:'auto', marginTop: '0.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '50rem', padding:'2rem'}} >
+        <form onSubmit={handleSubmit} style={{marginLeft:'auto', marginRight:'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '50rem', padding:'2rem'}} >
             <Grid container spacing={2}>
                 <Grid item xs={11}>
                     <TextField onChange={handleTopicChange} value={topicInput} sx={{marginRight:'1rem', backgroundColor: 'white', width:'100%'}} fullWidth id="quizGenInput" label="Your Topic" variant="outlined" required placeholder="e.g Cloud computing and distributed systems" InputLabelProps={{ shrink: true }} inputProps={{ maxLength: 50 }}/>
@@ -56,7 +56,7 @@ function FormQuizGenerator(){
                     </div>
                 </Grid>
             </Grid>
-            <div style={{marginTop:'2rem', display:'block', width: '100%'}}>
+            <div style={{marginTop:'1rem', display:'block', width: '100%'}}>
                 <Typography textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color:'#3b444b'}}>
                     Options:
                 </Typography>
