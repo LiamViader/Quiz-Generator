@@ -21,7 +21,8 @@ function Home(){
         quiz: {
             id: "12123eddsd",
             privacy: "private",
-            name: "Rick & Morty"
+            name: "QUEPASAAAAAAAAAAAAAAAAAAAAA",
+            solved: true
         }
     }
 
