@@ -76,8 +76,8 @@ function FormQuizGenerator(){
                 </Grid>
             </Grid>
                 <Grid container alignItems="center" style={{ marginTop: '2rem' }}>
-                    <Grid item xs={6} sx={{display:'flex', flexDirection: 'row'}}>
-                        <Typography onClick={toggleOptions} textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#051923'}}>
+                    <Grid item xs={7} sx={{display:'flex', flexDirection: 'row'}}>
+                        <Typography onClick={toggleOptions} textAlign="left" variant="h1" sx={{ fontSize: '1rem', fontWeight: 'bold', color: '#051923', marginTop:'auto', marginBottom:'auto'}}>
                         More Options
                         </Typography>
                         <IconButton onClick={toggleOptions} aria-label="toggleOptions" sx={{ color: '#051923', marginLeft:'0.3rem'}}>
