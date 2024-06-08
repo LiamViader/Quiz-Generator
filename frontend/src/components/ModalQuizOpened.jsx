@@ -27,7 +27,7 @@ function ModalQuizOpened({onCloseModal, quiz}) {
     bgcolor: '#051923',
     boxShadow: 24,
     borderRadius: 2, 
-    maxHeight: '80vh',
+    maxHeight: '83vh',
     overflowY: 'auto',
     overflowWrap: 'break-word',
     wordBreak: 'break-all',
