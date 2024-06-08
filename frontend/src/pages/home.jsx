@@ -29,7 +29,7 @@ function Home(){
     const exampleQuiz3 ={
         loading: false,
         quiz: {
-            id: "12123eddsd",
+            id: "12123sdffeddsd",
             privacy: "private",
             name: "Hola",
             solved: false

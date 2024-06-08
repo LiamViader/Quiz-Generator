@@ -30,15 +30,15 @@ function QuizClosed({quiz}){
     };
 
     const handleRemove = () =>{
-
+        setAnchorEl(null);
     }
 
     const handlePrivacy = () =>{
-        
+        setAnchorEl(null);
     }
 
     const handleUnsolve = () =>{
-        
+        setAnchorEl(null);
     }
 
     return(
