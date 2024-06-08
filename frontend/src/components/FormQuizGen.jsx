@@ -7,7 +7,7 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 
-function FormQuizGenerator(){
+function FormQuizGenerator({onSubmit, onResponse}){
 
     const example_topics=["Rick & Morty", "klk", "hola"];
 
@@ -18,6 +18,7 @@ function FormQuizGenerator(){
     const [showingOptions, setShowingOptions] = useState(false);
     const [waitingResponse, setWaitingResponse] = useState(false);
     const [nameInput, setNameInput] = useState("");
+    const [privacyInput, setPrivacyInput] = useState("private");
 
     const handleSubmit = (event) =>{
         event.preventDefault();
@@ -25,6 +26,7 @@ function FormQuizGenerator(){
             if(nameInput=="") setNameInput(topicInput);
             if(showingOptions) toggleOptions();
             setWaitingResponse(true);
+            onSubmit();
         }
     }
 
@@ -42,6 +44,10 @@ function FormQuizGenerator(){
 
     const handleNameChange = (event) =>{
         setNameInput(event.target.value);
+    }
+
+    const handlePrivacyChange = (event) =>{
+        setPrivacyInput(event.target.value);
     }
 
     const randomTopic = (event) =>{
@@ -111,7 +117,7 @@ function FormQuizGenerator(){
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
-                            <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+                                <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
                                     <InputLabel id="language-label">Language</InputLabel>
                                     <Select labelId="language-label" id="language" value={language} onChange={handleLanguageChange} autoWidth label="language">
                                         <MenuItem value={'english'}>English</MenuItem>
@@ -123,8 +129,23 @@ function FormQuizGenerator(){
                                 </FormControl>
                             </Grid>
                         </Grid>
+                        <Grid container spacing={2} sx={{}}>
+                            <Grid item xs={6} sx={{marginLeft: 'auto'}} >
+                                <TextField onChange={handleNameChange} disabled={waitingResponse} value={nameInput} size='small' sx={{marginLeft:'0.5rem', width:'80%', marginTop:'0.5rem'}} fullWidth id="quizNameInput" label="Quiz Name" variant="standard" inputProps={{ maxLength: 120 }}/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl sx={{ m: 1, minWidth: 80}} size="small">
+                                    <InputLabel id="privacy-label">Privacy</InputLabel>
+                                    <Select labelId="privacy-label" id="privacy" value={privacyInput} onChange={handlePrivacyChange} autoWidth label="privacy">
+                                        <MenuItem value={'private'}>Private</MenuItem>
+                                        <MenuItem value={'public'}>Public</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                        </Grid>
                     </div>
-                    <TextField onChange={handleNameChange} disabled={waitingResponse} value={nameInput} size='small' sx={{marginLeft:'0.5rem', width:'40%', marginTop:'0.5rem'}} fullWidth id="quizNameInput" label="Quiz Name" variant="standard" inputProps={{ maxLength: 120 }}/>
+                    
+
                 </div>
             </Collapse >
             
