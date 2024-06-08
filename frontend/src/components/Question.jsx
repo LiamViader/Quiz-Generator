@@ -12,7 +12,7 @@ function Question({question, index}){
 
     return (
         <div>
-            <Typography variant="h5" component="h2" sx={{ marginBottom: '1rem', marginTop: '1rem' }}>
+            <Typography variant="h6" component="h2" sx={{ marginBottom: '1rem', marginTop: '1rem' }}>
             {index}. {question.question}
             </Typography>
             <hr style={{ backgroundColor: 'gray', border: 'none', height: '1px', width: '100%', margin: '0 10px', marginLeft: 'auto', marginRight: 'auto', marginBottom: '1rem' }} />
