@@ -36,10 +36,6 @@ function Home(){
                 <FormQuizGenerator/>
             </div>  
 
-            <div>
-                <h1>Datos desde el backend:</h1>
-                {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Cargando...'}
-            </div>
         </>
     )
 }

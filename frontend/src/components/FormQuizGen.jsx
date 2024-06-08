@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Typography, TextField, IconButton, Slider, Grid, FormControl, MenuItem, InputLabel, Select, FormHelperText, Collapse } from '@mui/material';
+import { Typography, TextField, IconButton, Slider, Grid, FormControl, MenuItem, InputLabel, Select, FormHelperText, Collapse, Button } from '@mui/material';
 import ChangeIcon from '@mui/icons-material/ChangeCircle';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 
@@ -15,9 +16,16 @@ function FormQuizGenerator(){
     const [difficulty, setDifficulty] = useState("medium");
     const [language, setLanguage] = useState("english");
     const [showingOptions, setShowingOptions] = useState(false);
+    const [waitingResponse, setWaitingResponse] = useState(false);
+    const [nameInput, setNameInput] = useState("");
 
     const handleSubmit = (event) =>{
-
+        event.preventDefault();
+        if(!waitingResponse){
+            if(nameInput=="") setNameInput(topicInput);
+            if(showingOptions) toggleOptions();
+            setWaitingResponse(true);
+        }
     }
 
     const handleTopicChange = (event) =>{
@@ -32,6 +40,10 @@ function FormQuizGenerator(){
         setLanguage(event.target.value);
     }
 
+    const handleNameChange = (event) =>{
+        setNameInput(event.target.value);
+    }
+
     const randomTopic = (event) =>{
         setExampleTopicIndex(prevIndex => {
             let newIndex = -1;
@@ -42,7 +54,7 @@ function FormQuizGenerator(){
         setTopicInput(example_topics[exampleTopicIndex]);
     }
 
-    const toggleOptions = (event) =>{
+    const toggleOptions = () =>{
         setShowingOptions(prevOptions => !prevOptions)
     }
 
@@ -50,7 +62,7 @@ function FormQuizGenerator(){
         <form onSubmit={handleSubmit} style={{marginLeft:'auto', marginRight:'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '50rem', padding:'2rem'}} >
             <Grid container spacing={2}>
                 <Grid item xs={11}>
-                    <TextField onChange={handleTopicChange} value={topicInput} sx={{marginRight:'1rem', backgroundColor: 'white', width:'100%'}} fullWidth id="quizGenInput" label="Your Topic" variant="outlined" required placeholder="e.g Cloud computing and distributed systems" InputLabelProps={{ shrink: true }} inputProps={{ maxLength: 50 }}/>
+                    <TextField onChange={handleTopicChange} disabled={waitingResponse} value={topicInput} sx={{marginRight:'1rem', backgroundColor: 'white', width:'100%'}} fullWidth id="quizGenInput" label="Your Topic" variant="outlined" required placeholder="e.g Cloud computing and distributed systems" InputLabelProps={{ shrink: true }} inputProps={{ maxLength: 120 }}/>
                 </Grid>
                 <Grid item xs={1}>
                     <div style={{display: 'flex',flexDirection: 'column'}}>
@@ -63,14 +75,21 @@ function FormQuizGenerator(){
                     </div>
                 </Grid>
             </Grid>
-            <div style={{display:'flex', flexDirection: 'row', alignItems: 'center', marginRight:'auto', marginTop: '0.5rem'}}>
-                <Typography onClick={toggleOptions} textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color:'#051923', }}>
+                <Grid container alignItems="center" style={{ marginTop: '2rem' }}>
+                    <Grid item xs={6} sx={{display:'flex', flexDirection: 'row'}}>
+                        <Typography onClick={toggleOptions} textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#051923'}}>
                         More Options
-                </Typography>
-                <IconButton onClick={toggleOptions} aria-label="toggleOptions"  sx={{ color:'#051923'}}>
-                    {showingOptions? (<ArrowDropUpIcon/>) : (<ArrowDropDownCircleIcon/>)}
-                </IconButton>
-            </div>
+                        </Typography>
+                        <IconButton onClick={toggleOptions} aria-label="toggleOptions" sx={{ color: '#051923', marginLeft:'0.3rem'}}>
+                        {showingOptions ? <ArrowDropUpIcon /> : <ArrowDropDownCircleIcon />}
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end'}}>
+                        <Button disabled={waitingResponse} type="submit" variant="contained" endIcon={<AutoFixHighIcon />} sx={{backgroundColor:'#00cf89', minWidth:'60%', '&:hover': {backgroundColor: '#00a16b', boxShadow: 'none'},}}>
+                        GENERATE
+                        </Button>
+                    </Grid>
+                </Grid>
             <Collapse in={showingOptions} sx={{width:'100%'}}>
                 <div style={{marginTop:'1rem', display:'block', width:'90%', marginLeft: '7%'}}>
                     <Typography textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', color:'#051923'  }}>
@@ -89,7 +108,6 @@ function FormQuizGenerator(){
                                         <MenuItem value={'hard'}>Hard</MenuItem>
                                         <MenuItem value={'almost impossible'}>Extreme</MenuItem>
                                     </Select>
-                                    <FormHelperText>Difficulty of the quiz</FormHelperText>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
@@ -102,11 +120,11 @@ function FormQuizGenerator(){
                                         <MenuItem value={'french'}>French</MenuItem>
                                         <MenuItem value={'italian'}>Italian</MenuItem>
                                     </Select>
-                                    <FormHelperText>Language of the quiz</FormHelperText>
                                 </FormControl>
                             </Grid>
                         </Grid>
                     </div>
+                    <TextField onChange={handleNameChange} disabled={waitingResponse} value={nameInput} size='small' sx={{marginLeft:'0.5rem', width:'40%', marginTop:'0.5rem'}} fullWidth id="quizNameInput" label="Quiz Name" variant="standard" inputProps={{ maxLength: 120 }}/>
                 </div>
             </Collapse >
             
