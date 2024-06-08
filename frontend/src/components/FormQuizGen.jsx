@@ -102,7 +102,7 @@ function FormQuizGenerator({onSubmit, onResponse}){
                         Number of Questions:
                     </Typography>
                     <div style={{width: '90%', marginRight:'5%'}}>
-                        <Slider defaultValue={5} aria-label="Default" valueLabelDisplay="auto"  marks min={1} max={10} sx={{ color: '#051923' }}/>
+                        <Slider defaultValue={5} aria-label="Default" valueLabelDisplay="auto"  marks min={1} max={10} sx={{ color: '#00cf89' }}/>
                         <Grid container spacing={2} sx={{}}>
                             <Grid item xs={6} sx={{marginLeft: 'auto'}} >
                                 <FormControl sx={{ m: 1, minWidth: 80 }} size="small">

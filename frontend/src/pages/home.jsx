@@ -26,7 +26,17 @@ function Home(){
         }
     }
 
-    const [closedQuizzes, setClosedQuizzes] = useState([exampleQuiz,exampleQuiz2, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz]);
+    const exampleQuiz3 ={
+        loading: false,
+        quiz: {
+            id: "12123eddsd",
+            privacy: "private",
+            name: "Hola",
+            solved: false
+        }
+    }
+
+    const [closedQuizzes, setClosedQuizzes] = useState([exampleQuiz,exampleQuiz2, exampleQuiz3, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz]);
 
     const [data, setData] = useState(null);
 

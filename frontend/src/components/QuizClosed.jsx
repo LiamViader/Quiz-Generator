@@ -39,7 +39,7 @@ function QuizClosed({quiz}){
         gap='0.2rem'
         py='0.5rem'
         pl='0.6rem'
-        sx={{boxShadow:'0px 2px 5px gray', borderRadius: '1.1rem', backgroundColor:'#051923', color:'white', flex: '1 1 auto', marginRight: '2%', marginTop:'2%', maxWidth: quiz.loading ? '5rem' : '12rem', maxHeight:'1.5rem', overflow: 'hidden'}}
+        sx={{boxShadow:'0px 2px 5px gray', borderRadius: '1.1rem', backgroundColor: quiz.quiz.solved ? '#9aaab1' : '#051923', color: 'white', flex: '1 1 auto', marginRight: '2%', marginTop:'2%', maxWidth: quiz.loading ? '5rem' : '12rem', maxHeight:'1.5rem', overflow: 'hidden'}}
       >
         {quiz.loading ? 
             <div style={{paddingRight:'0.5rem', width:'2rem'}}>
@@ -48,9 +48,9 @@ function QuizClosed({quiz}){
             
             :
             <div style={{display: 'flex', overflow: 'hidden', width:'100%'}}>
-                <ButtonBase onClick={handleClickQuiz} sx={{display:'flex', overflow: 'hidden'}}>
+                <ButtonBase onClick={handleClickQuiz} sx={{display:'flex', flexGrow:'1',overflow: 'hidden'}}>
                     <div style={{ display:'flex', overflow: 'hidden', marginTop:'auto', marginBottom:'auto'}}>
-                        <QuizIcon sx={{color: '#7fffd4',  }} />
+                        <QuizIcon sx={{color: quiz.quiz.solved ? 'white' : '#7fffd4',  }} />
                     </div>
                     <div style={{ flex: '2', display: 'flex', alignItems:'center', overflow: 'hidden', marginLeft:'0.3rem'}}>
                         <Typography sx={{flexGrow:'1', fontWeight: 'bold', fontSize:'0.8rem', overflow:'hidden', textOverflow:'ellipsis', whiteSpace: 'nowrap'}}> {quiz.quiz.name}</Typography>
