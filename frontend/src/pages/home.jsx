@@ -19,9 +19,9 @@ function Home(){
     const exampleQuiz2 ={
         loading: false,
         quiz: {
-            id: '12123eddsd',
-            privacy: 'private',
-            
+            id: "12123eddsd",
+            privacy: "private",
+            name: "Rick & Morty"
         }
     }
 
