@@ -5,7 +5,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from "react";
 
-function QuizClosed({quiz}){
+function QuizClosed({quiz, onQuizClick}){
     // Estado para manejar la apertura/cierre del menú
     const [anchorEl, setAnchorEl] = useState(null);
     
@@ -22,7 +22,8 @@ function QuizClosed({quiz}){
     };
 
     const handleClickQuiz = (event) => {
-        console.log("clicat");
+        if (!quiz.loading)
+        onQuizClick(quiz);
     };
 
     const handleClose = () => {

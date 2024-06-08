@@ -1,11 +1,11 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
-import { Typography} from '@mui/material';
+import { Typography, Fade} from '@mui/material';
 import axios from 'axios';
 import FormQuizGenerator from '../components/FormQuizGen';
 import QuizListRenderer from '../components/QuizListRenderer';
-
+import ModalQuizOpened from '../components/ModalQuizOpened';
 function Home(){
     const backendUrl = import.meta.env.VITE_API_URL; //url de servidor backend
 
@@ -32,13 +32,48 @@ function Home(){
             id: "12123sdffeddsd",
             privacy: "private",
             name: "Hola",
-            solved: false
+            solved: false,
+            questions: [
+                {
+                    question: "Com et dius?AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    answers: [
+                        "LiamAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                        "Manel",
+                        "Pedro"
+                    ],
+                    correctAnswer: 0,
+                    userAnswer: null
+                },
+                {
+                    question: "Com et dius?",
+                    answers: [
+                        "Liam",
+                        "Manel",
+                        "Pedro"
+                    ],
+                    correctAnswer: 0,
+                    userAnswer: 1
+                },
+            ]
         }
     }
 
-    const [closedQuizzes, setClosedQuizzes] = useState([exampleQuiz,exampleQuiz2, exampleQuiz3, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz]);
+    const [quizzes, setQuizzes] = useState([exampleQuiz,exampleQuiz3, exampleQuiz2, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz]);
 
     const [data, setData] = useState(null);
+
+    const [selectedQuiz, setSelectedQuiz] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleQuizClick = (quiz) => {
+        setSelectedQuiz(quiz);
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setSelectedQuiz(null);
+    };
 
 
     useEffect(() => {
@@ -67,18 +102,19 @@ function Home(){
                 <FormQuizGenerator onSubmit={handleFormSumitted}/>
 
             </div>  
-            <hr style={{ height: '1px', width: '60%', margin: '0 10px', marginLeft:'auto', marginRight:'auto' }} />
+            <hr style={{backgroundColor:'gray',border: 'none', height: '1px',  width: '60%', margin: '0 10px', marginLeft:'auto', marginRight:'auto' }} />
             <div style={{paddingLeft:'1rem', paddingRight:'1rem', minWidth:'20rem', marginTop: '2rem',}}>
                 <Typography textAlign="center" variant="h2" sx={{ fontSize: '1.8rem', fontWeight: 'bold',  color:'#2b2d42', marginTop: '1rem', marginBottom:'1rem'  }}>
                 Generated Quizzes
                 </Typography>
-                <QuizListRenderer quizList={closedQuizzes}/>
+                <QuizListRenderer quizList={quizzes} onQuizClick={handleQuizClick}/>
             </div>
 
             <div>
                 <h1>Datos desde el backend:</h1>
                 {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Cargando...'}
             </div>
+            {showModal &&  selectedQuiz && <ModalQuizOpened  quiz={selectedQuiz} onCloseModal={handleCloseModal} />}
         </>
     )
 }
