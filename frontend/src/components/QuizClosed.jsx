@@ -25,11 +25,21 @@ function QuizClosed({quiz}){
         console.log("clicat");
     };
 
-    // Función para cerrar el menú
     const handleClose = () => {
         setAnchorEl(null);
     };
 
+    const handleRemove = () =>{
+
+    }
+
+    const handlePrivacy = () =>{
+        
+    }
+
+    const handleUnsolve = () =>{
+        
+    }
 
     return(
         <Box
