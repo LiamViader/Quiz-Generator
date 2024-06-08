@@ -64,7 +64,7 @@ function FormQuizGenerator(){
                 </Grid>
             </Grid>
             <div style={{display:'flex', flexDirection: 'row', alignItems: 'center', marginRight:'auto', marginTop: '0.5rem'}}>
-                <Typography onClick={toggleOptions} textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color:'#3b444b', }}>
+                <Typography onClick={toggleOptions} textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color:'#051923', }}>
                         More Options
                 </Typography>
                 <IconButton onClick={toggleOptions} aria-label="toggleOptions"  sx={{ color:'#051923'}}>
@@ -73,11 +73,11 @@ function FormQuizGenerator(){
             </div>
             <Collapse in={showingOptions} sx={{width:'100%'}}>
                 <div style={{marginTop:'1rem', display:'block', width:'90%', marginLeft: '7%'}}>
-                    <Typography textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', color:'#3b444b'  }}>
+                    <Typography textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', color:'#051923'  }}>
                         Number of Questions:
                     </Typography>
                     <div style={{width: '90%', marginRight:'5%'}}>
-                        <Slider defaultValue={5} aria-label="Default" valueLabelDisplay="auto"  marks min={1} max={10} sx={{ color: '#3b444b' }}/>
+                        <Slider defaultValue={5} aria-label="Default" valueLabelDisplay="auto"  marks min={1} max={10} sx={{ color: '#051923' }}/>
                         <Grid container spacing={2} sx={{}}>
                             <Grid item xs={6} sx={{marginLeft: 'auto'}} >
                                 <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
