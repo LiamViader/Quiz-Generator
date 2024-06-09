@@ -5,7 +5,8 @@ import { GeneratorService } from './generator.service';
 
 @Controller('generator')
 export class GeneratorController {
-
+    constructor(private readonly generatorService: GeneratorService) {}
+    
     @Get() //per provar si hi ha connexio amb openai, retorna missatge generat per gpt
     async simplePrompt() {
         try {
