@@ -43,7 +43,7 @@ function QuizOpened({onSolved, quiz, onAnswerChange}){
         <Box sx={{backgroundColor: quizState.solved ? '#c6dff5' : 'background.paper' ,px: 4,py: 2}}>
             { quizState.solved &&
                 <div style={{marginBottom:'1.5rem', backgroundColor:'#b9d1e6', padding:'1rem',borderRadius: '1.2rem', marginLeft:'auto', marginRight:'auto'}}>
-                    <Typography variant='h3' sx={{color:'#334759',marginLeft:'1rem', marginTop:'1rem', fontSize:'2rem'}}>{correctAnswers()}/{quizState.questions && quizState.questions.length}</Typography>
+                    <Typography variant='h3' sx={{color:'#334759',marginLeft:'1rem', marginTop:'0.7rem', fontSize:'2rem'}}>Score: {correctAnswers()}/{quizState.questions && quizState.questions.length}</Typography>
                     <hr style={{ backgroundColor: '#97aaba', border: 'none', height: '2px', width: '100%',marginLeft:'0', marginBottom: '0rem' }} />
                 </div>
             }
@@ -60,7 +60,7 @@ function QuizOpened({onSolved, quiz, onAnswerChange}){
                         Send
                     </Button>
                     <Typography variant="h7" fontSize={'1.2rem'} sx={{ color:quizState.questions && questionsAnswered()<quizState.questions.length && 'red',marginLeft:'auto', }}>
-                        You have answered {questionsAnswered()}/{quizState.questions && quizState.questions.length} questions
+                        {questionsAnswered()}/{quizState.questions && quizState.questions.length} answered
                     </Typography>
                 </div>
             </>

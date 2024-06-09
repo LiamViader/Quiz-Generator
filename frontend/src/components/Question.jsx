@@ -22,7 +22,7 @@ function Question({question, questionIndex, onAnswerChange, solved}){
     return (
         <div style={{backgroundColor:solved ? '#b9d1e6' : '#ededed',marginBottom:'1rem', borderRadius:'1.2rem'}}>
             <div style={{borderRadius: '1.2rem', padding:'0.2rem 1rem', backgroundColor: solved && correct() ? '#7ce482' : solved && !correct() ? '#e78888' :'transparent' }}>
-                <Typography variant="h6" component="h2" sx={{color:'#334759', marginBottom: '1rem', marginTop: '1rem' }}>
+                <Typography variant="h6" component="h2" sx={{color:'#334759', marginBottom: '1rem', marginTop: '1rem', fontSize:'1rem' }}>
                 {questionIndex+1}. {question.question}
                 </Typography>
             </div>
@@ -37,7 +37,7 @@ function Question({question, questionIndex, onAnswerChange, solved}){
                         control={<Radio  disabled={solved}/>}
                         label={
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <ListItemText sx={{ color: '#334759' }} primary={answer} />
+                            <ListItemText sx={{ color: '#334759' }} primaryTypographyProps={{ sx: { fontSize: '0.8rem' } }} primary={answer} />
                             
                             { solved && 
                             <>
