@@ -5,8 +5,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["AZURE_OPENAI_ENDPOINT"] || "https://quizgenerator-openai-prod.openai.azure.com/";
-const apiKey = process.env["AZURE_OPENAI_API_KEY"] || "5161a8db7df9440998b4f7d5f5da66da";
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
+const apiKey = process.env["AZURE_OPENAI_API_KEY"];
 const apiVersion = "2024-05-01-preview";
 const deployment = "gpt4"; //This must match your deployment name.
 require("dotenv/config");
