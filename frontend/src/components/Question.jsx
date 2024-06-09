@@ -21,13 +21,13 @@ function Question({question, questionIndex, onAnswerChange, solved}){
 
     return (
         <div style={{backgroundColor:solved ? '#b9d1e6' : '#ededed',marginBottom:'1rem', borderRadius:'1.2rem'}}>
-            <div style={{borderRadius: '1.2rem', padding:'0.2rem 1rem', backgroundColor: solved && correct() ? '#7ce482' : solved && !correct() ? '#e78888' :'transparent' }}>
-                <Typography variant="h6" component="h2" sx={{color:'#334759', marginBottom: '1rem', marginTop: '1rem', fontSize:'1rem' }}>
+            <div style={{borderTopRightRadius: '1.2rem',borderTopLeftRadius:'1.2rem', padding:'0.2rem 1rem', backgroundColor: solved && correct() ? '#9bc5a7' : solved && !correct() ? '#c59b9b' :'transparent' }}>
+                <Typography variant="h6" component="h2" sx={{color:'#334759', marginBottom: '1rem', marginTop: '1rem', fontSize:'0.95rem' }}>
                 {questionIndex+1}. {question.question}
                 </Typography>
             </div>
 
-            <hr style={{backgroundColor: solved && correct() ? '#b8f5bc' : solved && !correct() ? '#f5b8bf' :'gray', border: 'none', height: '1px', width: '90%', margin: '0 5px', marginLeft: 'auto', marginRight: 'auto', marginBottom: '1rem' }} />
+            {!solved&&<hr style={{backgroundColor: 'gray', border: 'none', height: '1px', width: '90%', margin: '0 5px', marginLeft: 'auto', marginRight: 'auto', marginBottom: '1rem' }} />}
             <RadioGroup value={selectedAnswer} onChange={handleAnswerChange}>
                 <List >
                     {question.answers && question.answers.map((answer, index) => (
