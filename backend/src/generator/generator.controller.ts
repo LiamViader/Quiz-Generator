@@ -1,5 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { generateQuizMessage } from './generateQuizMessage';
+import { GeneratorRequestDto } from './dto/generator-request.dto';
+import { GeneratorService } from './generator.service';
 
 @Controller('generator')
 export class GeneratorController {
@@ -16,4 +18,9 @@ export class GeneratorController {
           }
     }
 
+    @Post('generate-quiz')
+    async create(@Body() createRequestDto: GeneratorRequestDto) {
+        const result = await this.generatorService.generateQuiz(createRequestDto);
+        return result;
+    }
 }
