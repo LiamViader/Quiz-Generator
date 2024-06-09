@@ -20,7 +20,7 @@ function Question({question, questionIndex, onAnswerChange, solved}){
     };
 
     return (
-        <div style={{backgroundColor:solved ? '#b9d1e6' : '#ededed',marginBottom:'1rem', borderRadius:'1.2rem'}}>
+        <div style={{backgroundColor:solved ? '#b9d1e6' : '#ededed',marginBottom:'1rem', borderRadius:'1.2rem', boxShadow:' 0px 4px 11px gray'}}>
             <div style={{borderTopRightRadius: '1.2rem',borderTopLeftRadius:'1.2rem', padding:'0.2rem 1rem', backgroundColor: solved && correct() ? '#9bc5a7' : solved && !correct() ? '#c59b9b' :'transparent' }}>
                 <Typography variant="h6" component="h2" sx={{color:'#334759', marginBottom: '1rem', marginTop: '1rem', fontSize:'0.95rem' }}>
                 {questionIndex+1}. {question.question}

@@ -40,10 +40,10 @@ function QuizOpened({onSolved, quiz, onAnswerChange}){
     }, 0);
 
     return (
-        <Box sx={{backgroundColor: quizState.solved ? '#c6dff5' : 'background.paper' ,px: 4,py: 2}}>
+        <Box sx={{ backgroundColor: quizState.solved ? '#c6dff5' : 'background.paper' ,px: 4,py: 2}}>
             { quizState.solved &&
-                <div style={{marginBottom:'1.5rem', backgroundColor:'#b9d1e6', padding:'1rem',borderRadius: '1.2rem', marginLeft:'auto', marginRight:'auto'}}>
-                    <Typography variant='h3' sx={{color:'#334759',marginLeft:'1rem', marginTop:'0.7rem', fontSize:'2rem'}}>Score: {correctAnswers()}/{quizState.questions && quizState.questions.length}</Typography>
+                <div style={{ boxShadow:'inset 0px 4px 2px gray',marginBottom:'1.5rem', backgroundColor:'#b9d1e6', padding:'1rem',borderRadius: '1.2rem', marginLeft:'auto', marginRight:'auto'}}>
+                    <Typography variant='h3' sx={{color:'#334759',marginLeft:'1rem', marginTop:'0.7rem', fontSize:'2rem', }}>Score: {correctAnswers()}/{quizState.questions && quizState.questions.length}</Typography>
                     <hr style={{ backgroundColor: '#97aaba', border: 'none', height: '2px', width: '100%',marginLeft:'0', marginBottom: '0rem' }} />
                 </div>
             }
