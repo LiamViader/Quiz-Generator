@@ -104,6 +104,19 @@ function Home(){
         );
     };
 
+    const handleQuizSolved = (quizId) =>{
+        setQuizzes(prevQuizzes=>
+            prevQuizzes.map(quiz=>
+                quiz.quiz.id === quizId ? {
+                    ...quiz, quiz: {
+                        ...quiz.quiz,
+                        solved: true
+                    }
+                } : quiz
+            )
+        );
+    }
+
     useEffect(() => {
         axios.get(`${backendUrl}`) 
           .then(response => setData(response.data))
@@ -142,7 +155,7 @@ function Home(){
                 <h1>Datos desde el backend:</h1>
                 {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Cargando...'}
             </div>
-            {showModal &&  selectedQuiz && <ModalQuizOpened  quiz={selectedQuiz} onCloseModal={handleCloseModal} onAnswerChange={handleAnswerChange}/>}
+            {showModal &&  selectedQuiz && <ModalQuizOpened  quiz={selectedQuiz} onCloseModal={handleCloseModal} onAnswerChange={handleAnswerChange} onQuizSolved={handleQuizSolved}/>}
         </>
     )
 }

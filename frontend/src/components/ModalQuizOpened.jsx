@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Box, IconButton, Typography, Button, Fade } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import QuizIcon from '@mui/icons-material/Quiz';
 import QuizOpened from './QuizOpened';
-function ModalQuizOpened({onCloseModal, quiz, onAnswerChange}) {
-  
+function ModalQuizOpened({onQuizSolved, onCloseModal, quiz, onAnswerChange}) {
+  const modalContentRef = useRef(null);
 
   const handleClose = () =>{
     onCloseModal();
   } 
+
+  const handleSolved = (quizId) =>{
+    modalContentRef.current.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+    onQuizSolved(quizId);
+  }
 
   const style1 = {
     position: 'absolute',
@@ -30,7 +38,7 @@ function ModalQuizOpened({onCloseModal, quiz, onAnswerChange}) {
   return (
     <div>
       <Modal open={true} onClose={handleClose}>
-        <Box sx={style1}>
+        <Box sx={style1 } ref={modalContentRef}>
           <div style={{display:'flex', alignItems:"center", padding:'1.2rem 2rem', overflowWrap: 'break-word', wordBreak: 'break-all'}}>
             <QuizIcon sx={{ fontSize:'1.8rem', mr: 2, color: '#7fffd4' }} />
             <Typography
@@ -63,7 +71,7 @@ function ModalQuizOpened({onCloseModal, quiz, onAnswerChange}) {
             >
             <CloseIcon />
           </IconButton>
-          <QuizOpened quiz={quiz.quiz} onAnswerChange={onAnswerChange}/>
+          <QuizOpened onSolved={handleSolved} quiz={quiz.quiz} onAnswerChange={onAnswerChange}/>
           
         </Box>
         
