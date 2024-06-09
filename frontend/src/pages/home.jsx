@@ -69,8 +69,8 @@ function Home(){
         }
     }
 
-    const [quizzes, setQuizzes] = useState([exampleQuiz,exampleQuiz3, exampleQuiz2, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz, exampleQuiz]);
-
+    const [quizzes, setQuizzes] = useState([]);
+    const [counter, setCounter] = useState(0);
     const [data, setData] = useState(null);
 
     const [selectedQuiz, setSelectedQuiz] = useState(null);
@@ -117,14 +117,43 @@ function Home(){
         );
     }
 
-    useEffect(() => {
-        axios.get(`${backendUrl}`) 
-          .then(response => setData(response.data))
-          .catch(error => console.error('Error:', error));
-    }, [backendUrl]);
     
     const handleFormSumitted = () => {
-        console.log("submitted");
+        setCounter((prev)=>(prev+1));
+        setQuizzes((prevQuizzes) => [
+            { loading: true, addedNow:true, tempId:counter, quiz: {} },
+            ...prevQuizzes
+        ]);
+
+    }
+
+    function deleteLoadingQuiz(){
+        setQuizzes(prevQuizzes => {
+            const indexToDelete = prevQuizzes.slice().reverse().findIndex(quiz => quiz.loading);
+            if (indexToDelete === -1) {
+                return prevQuizzes;
+            } else {
+                const newQuizzes = prevQuizzes.filter((_, index) => index !== prevQuizzes.length - 1 - indexToDelete);
+                return newQuizzes;
+            }
+        });
+    }
+
+    const handleResponse=(data)=>{
+        setQuizzes(prevQuizzes => {
+            const indexToModify = prevQuizzes.slice().reverse().findIndex(quiz => quiz.loading);
+            if (indexToModify === -1) {
+                return prevQuizzes;
+            } else {
+                const newQuizzes = [...prevQuizzes]; // Crea una copia de la lista de quizzes
+                newQuizzes[indexToModify] = { ...newQuizzes[indexToModify], loading: false, quiz:data.data };
+                return newQuizzes;
+            }
+        });
+    }
+
+    const handleErrorResponse=(error)=>{
+        deleteLoadingQuiz();
     }
 
     return (
@@ -140,20 +169,15 @@ function Home(){
                 <Typography textAlign="center" variant="body1" sx={{ fontSize: '0.8rem', color:'#999999' }}>
                     Quizzes are generated using gpt-4
                 </Typography>
-                <FormQuizGenerator onSubmit={handleFormSumitted}/>
+                <FormQuizGenerator onResponse={handleResponse} onErrorResponse={handleErrorResponse} onSubmit={handleFormSumitted}/>
 
             </div>  
-            <hr style={{backgroundColor:'gray',border: 'none', height: '1px',  width: '60%', margin: '0 10px', marginLeft:'auto', marginRight:'auto' }} />
+            <hr style={{minWidth:'20rem', backgroundColor:'gray',border: 'none', height: '1px',  width: '60%', margin: '0 10px', marginLeft:'auto', marginRight:'auto' }} />
             <div style={{paddingLeft:'1rem', paddingRight:'1rem', minWidth:'20rem', marginTop: '2rem',}}>
                 <Typography textAlign="center" variant="h2" sx={{ fontSize: '1.8rem', fontWeight: 'bold',  color:'#2b2d42', marginTop: '1rem', marginBottom:'1rem'  }}>
                 Generated Quizzes
                 </Typography>
                 <QuizListRenderer quizList={quizzes} onQuizClick={handleQuizClick}/>
-            </div>
-
-            <div>
-                <h1>Datos desde el backend:</h1>
-                {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Cargando...'}
             </div>
             {showModal &&  selectedQuiz && <ModalQuizOpened  quiz={selectedQuiz} onCloseModal={handleCloseModal} onAnswerChange={handleAnswerChange} onQuizSolved={handleQuizSolved}/>}
         </>

@@ -5,7 +5,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 
 function Question({question, questionIndex, onAnswerChange, solved}){
-
+    
     const [selectedAnswer, setSelectedAnswer] = useState(question.userAnswer);
 
     const handleAnswerChange = (event) => {

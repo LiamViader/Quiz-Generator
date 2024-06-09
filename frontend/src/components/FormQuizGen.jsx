@@ -5,13 +5,18 @@ import ChangeIcon from '@mui/icons-material/ChangeCircle';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import axios from "axios";
 
 
-function FormQuizGenerator({onSubmit, onResponse}){
+function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
+    const backendUrl = import.meta.env.VITE_API_URL;
+    const endpoint = "/generator/generate-quiz";
+    const generateQuizUrl=backendUrl+endpoint;
 
-    const example_topics=["Rick & Morty", "klk", "hola"];
+    const example_topics=["Rick & Morty", "about making the most ethical decision in different scenarios", "catalan culture", "about the best rappers of the 21 century"];
 
     const [topicInput, setTopicInput] = useState("");
+    const [numberQuestions, setNumberQuestions] = useState(7);
     const [exampleTopicIndex, setExampleTopicIndex] = useState(0);
     const [difficulty, setDifficulty] = useState("medium");
     const [language, setLanguage] = useState("english");
@@ -20,14 +25,37 @@ function FormQuizGenerator({onSubmit, onResponse}){
     const [nameInput, setNameInput] = useState("");
     const [privacyInput, setPrivacyInput] = useState("private");
 
-    const handleSubmit = (event) =>{
+    const handleSubmit = async (event) =>{
         event.preventDefault();
         if(!waitingResponse){
-            if(nameInput=="") setNameInput(topicInput);
+            let name;
+            if(nameInput=="") name=topicInput;
+            else name=nameInput;
             if(showingOptions) toggleOptions();
             setWaitingResponse(true);
             onSubmit();
+            try {
+                console.log(numberQuestions)
+                const response = await axios.post(`${generateQuizUrl}`, {
+                    topic: topicInput,
+                    difficulty: difficulty,
+                    language: language,
+                    name: name,
+                    numberQuestions: parseInt(numberQuestions),
+                    privacy: privacyInput
+                });
+                onResponse(response.data);
+                setWaitingResponse(false);
+    
+            } catch (error) {
+                console.log(error);
+                onErrorResponse(error);
+            }
         }
+    }
+
+    const handleSliderChange = (e) =>{
+        setNumberQuestions(parseInt(e.target.value));
     }
 
     const handleTopicChange = (event) =>{
@@ -102,7 +130,7 @@ function FormQuizGenerator({onSubmit, onResponse}){
                         Number of Questions:
                     </Typography>
                     <div style={{width: '90%', marginRight:'5%'}}>
-                        <Slider defaultValue={5} aria-label="Default" valueLabelDisplay="auto"  marks min={1} max={10} sx={{ color: '#00cf89' }}/>
+                        <Slider onChange={handleSliderChange} defaultValue={numberQuestions} aria-label="Default" valueLabelDisplay="auto"  marks min={1} max={10} sx={{ color: '#00cf89' }}/>
                         <Grid container spacing={2} sx={{}}>
                             <Grid item xs={6} sx={{marginLeft: 'auto'}} >
                                 <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
