@@ -55,6 +55,16 @@ function Home(){
                     correctAnswer: 0,
                     userAnswer: 1
                 },
+                {
+                    question: "Com et dius?",
+                    answers: [
+                        "Liam",
+                        "Manel",
+                        "Pedro"
+                    ],
+                    correctAnswer: 0,
+                    userAnswer: 1
+                },
             ]
         }
     }

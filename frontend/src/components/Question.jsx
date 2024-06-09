@@ -7,6 +7,7 @@ function Question({question, questionIndex, onAnswerChange}){
     const [selectedAnswer, setSelectedAnswer] = useState(question.userAnswer);
 
     const handleAnswerChange = (event) => {
+        document.activeElement.blur();
         setSelectedAnswer(event.target.value);
         onAnswerChange(questionIndex, event.target.value)
     };
