@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import Question from "./Question";
 
-function QuizOpened({quiz}){
+function QuizOpened({quiz, onAnswerChange}){
 
     const style = {
         backgroundColor: 'background.paper',
@@ -10,11 +10,15 @@ function QuizOpened({quiz}){
         py: 3
     };
 
+    const handleAnswerChange = (questionIndex, newAnswer) => {
+        onAnswerChange(quiz.id,questionIndex,newAnswer);
+    }
+
     return (
         <Box sx={style}>
 
-            {quiz.quiz.questions && quiz.quiz.questions.map((question, index) => (
-                <Question question={question} index={index+1} key={index}/>
+            {quiz.questions && quiz.questions.map((question, index) => (
+                <Question question={question} questionIndex={index} key={index} onAnswerChange={handleAnswerChange}/>
             ))}
 
 

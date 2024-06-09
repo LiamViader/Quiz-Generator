@@ -32,6 +32,7 @@ function Home(){
             id: "12123sdffeddsd",
             privacy: "private",
             name: "Hola",
+            topic: "cloud computing",
             solved: false,
             questions: [
                 {
@@ -64,6 +65,7 @@ function Home(){
 
     const [selectedQuiz, setSelectedQuiz] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [openedModalNow, setOpenedModalNow] = useState(false);
 
     const handleQuizClick = (quiz) => {
         setSelectedQuiz(quiz);
@@ -75,6 +77,22 @@ function Home(){
         setSelectedQuiz(null);
     };
 
+    const handleAnswerChange = (quizId,questionIndex,newAnswer) =>{
+        setQuizzes(prevQuizzes=>
+            prevQuizzes.map(quiz=>
+                quiz.quiz.id === quizId ? {
+                    ...quiz, quiz: {
+                        ...quiz.quiz,
+                        questions: quiz.quiz.questions.map((question, index) =>
+                            index === questionIndex
+                              ? { ...question, userAnswer: newAnswer }
+                              : question
+                        )
+                    }
+                } : quiz
+            )
+        );
+    };
 
     useEffect(() => {
         axios.get(`${backendUrl}`) 
@@ -114,7 +132,7 @@ function Home(){
                 <h1>Datos desde el backend:</h1>
                 {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Cargando...'}
             </div>
-            {showModal &&  selectedQuiz && <ModalQuizOpened  quiz={selectedQuiz} onCloseModal={handleCloseModal} />}
+            {showModal &&  selectedQuiz && <ModalQuizOpened  quiz={selectedQuiz} onCloseModal={handleCloseModal} onAnswerChange={handleAnswerChange}/>}
         </>
     )
 }

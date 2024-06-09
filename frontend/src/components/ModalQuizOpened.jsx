@@ -3,18 +3,11 @@ import { Modal, Box, IconButton, Typography, Button, Fade } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import QuizIcon from '@mui/icons-material/Quiz';
 import QuizOpened from './QuizOpened';
-function ModalQuizOpened({onCloseModal, quiz}) {
+function ModalQuizOpened({onCloseModal, quiz, onAnswerChange}) {
   
-  const [isOpen, setIsOpen] = useState(true);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setTimeout(() => onCloseModal(), 300);
-    }
-  }, [isOpen, onCloseModal]);
 
   const handleClose = () =>{
-    setIsOpen(false);
+    onCloseModal();
   } 
 
   const style1 = {
@@ -36,45 +29,43 @@ function ModalQuizOpened({onCloseModal, quiz}) {
 
   return (
     <div>
-      <Modal open={isOpen} onClose={handleClose}>
-        <Fade in={isOpen}>
-          <Box sx={style1}>
-            <div style={{display:'flex', alignItems:"center", padding:'1.2rem 2rem', overflowWrap: 'break-word', wordBreak: 'break-all'}}>
-              <QuizIcon sx={{ fontSize:'1.8rem', mr: 2, color: '#7fffd4' }} />
-              <Typography
-                variant="h6"
-                sx={{
-                  mr: 4,
-                  ml:1,
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '.3rem',
-                  color: '#7fffd4',
-                  textDecoration: 'none',
-                  fontSize:'1.5rem'
-                }}
-              >
-                {quiz.quiz.name}
-              </Typography>
-            </div>
+      <Modal open={true} onClose={handleClose}>
+        <Box sx={style1}>
+          <div style={{display:'flex', alignItems:"center", padding:'1.2rem 2rem', overflowWrap: 'break-word', wordBreak: 'break-all'}}>
+            <QuizIcon sx={{ fontSize:'1.8rem', mr: 2, color: '#7fffd4' }} />
+            <Typography
+              variant="h6"
+              sx={{
+                mr: 4,
+                ml:1,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: '#7fffd4',
+                textDecoration: 'none',
+                fontSize:'1.5rem'
+              }}
+            >
+              {quiz.quiz.name}
+            </Typography>
+          </div>
 
 
-            <IconButton
-                aria-label="close"
-                onClick={handleClose}
-                sx={{
-                  position: 'absolute',
-                  right: 8,
-                  top: 8,
-                  color: 'white',
-                }}
-              >
-              <CloseIcon />
-            </IconButton>
-            <QuizOpened quiz={quiz}/>
-            
-          </Box>
-        </Fade>
+          <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: 'white',
+              }}
+            >
+            <CloseIcon />
+          </IconButton>
+          <QuizOpened quiz={quiz.quiz} onAnswerChange={onAnswerChange}/>
+          
+        </Box>
         
       </Modal>
     </div>
