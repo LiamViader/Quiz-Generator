@@ -2,9 +2,8 @@ import { Module } from '@nestjs/common';
 import { MongoController } from './mongo.controller';
 import { MongoService } from './mongo.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import mongoConfig from './mongo.config';
 
 @Module({
-    imports: [MongooseModule.forRoot(mongoConfig.uri)]
+    imports: [MongooseModule.forRoot(process.env.DB_URI)]
 })
 export class MongoModule {}
