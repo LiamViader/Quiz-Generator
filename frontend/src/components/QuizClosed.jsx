@@ -5,7 +5,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from "react";
 
-function QuizClosed({quiz, onQuizClick}){
+function QuizClosed({quiz, onQuizClick, onUnsolve}){
 
     const [anchorEl, setAnchorEl] = useState(null);
     
@@ -34,6 +34,7 @@ function QuizClosed({quiz, onQuizClick}){
 
     const handleUnsolve = () =>{
         setAnchorEl(null);
+        onUnsolve(quiz.quiz._id);
     }
 
     return(

@@ -3,11 +3,10 @@ import { useEffect, useState } from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import { Typography, Fade} from '@mui/material';
 import axios from 'axios';
-import FormQuizGenerator from '../components/FormQuizGen';
 import QuizListRenderer from '../components/QuizListRenderer';
 import ModalQuizOpened from '../components/ModalQuizOpened';
 import ErrorPopup from '../components/ErrorPopup';
-function Home(){
+function PublicQuizzes(){
     const backendUrl = import.meta.env.VITE_API_URL; //url de servidor backend
 
     const [errorPopupMessage,setErrorPopupMessage] = useState(null);
@@ -52,7 +51,7 @@ function Home(){
                 quiz.quiz._id === quizId ? {
                     ...quiz, quiz: {
                         ...quiz.quiz,
-                        solved: true,
+                        solved: true
                     }
                 } : quiz
             )
@@ -75,7 +74,6 @@ function Home(){
             )
         );
     }
-
     
     const handleFormSumitted = () => {
         setCounter((prev)=>(prev+1));
@@ -121,27 +119,18 @@ function Home(){
 
     return (
         <>  
-            <ResponsiveAppBar pages={[{name: 'Public Quizzes', rout:'/publicQuizzes'},]}/>
-            <div style={{paddingLeft:'1rem', paddingRight:'1rem', minWidth:'20rem', marginTop: '2rem',}}>
+            <ResponsiveAppBar pages={[{name: 'Home', rout:'/'},]}/>
+            <div style={{paddingLeft:'1rem', paddingRight:'1rem', minWidth:'20rem', marginTop: '2rem',marginBottom:'1.5rem'}}>
                 <Typography textAlign="center" variant="h1" sx={{ fontSize: '2.7rem', fontWeight: 'bold',  color:'#2b2d42'  }}>
-                    Automatic quiz generator 
+                    Public Quizzes 
                 </Typography>
                 <Typography textAlign="center" variant="h2" sx={{ fontSize: '1.1rem', marginTop: '0.3rem', color:'#2b2d42' }}>
-                    Generate a quiz from a given topic or explanation
+                    All the latest quizzes made by the comunity
                 </Typography>
-                <Typography textAlign="center" variant="body1" sx={{ fontSize: '0.8rem', color:'#999999' }}>
-                    Quizzes are generated using gpt-4
-                </Typography>
-                <FormQuizGenerator onResponse={handleResponse} onErrorResponse={handleErrorResponse} onSubmit={handleFormSumitted}/>
 
             </div>  
-            <hr style={{minWidth:'20rem', backgroundColor:'gray',border: 'none', height: '1px',  width: '60%', margin: '0 10px', marginLeft:'auto', marginRight:'auto' }} />
+            <hr style={{minWidth:'20rem', backgroundColor:'gray',border: 'none', height: '1px',  width: '30%', margin: '0 10px', marginLeft:'auto', marginRight:'auto' }} />
             <div style={{paddingLeft:'1rem', paddingRight:'1rem', minWidth:'20rem', marginTop: '2rem',}}>
-                {quizzes.length>0 && 
-                    <Typography textAlign="center" variant="h2" sx={{ fontSize: '1.8rem', fontWeight: 'bold',  color:'#2b2d42', marginTop: '1rem', marginBottom:'1rem'  }}>
-                    Generated Quizzes
-                    </Typography>
-                }
                 <QuizListRenderer quizList={quizzes} onQuizClick={handleQuizClick} onUnsolve={handleUnsolveQuiz}/>
             </div>
             {showModal &&  selectedQuiz && <ModalQuizOpened  quiz={selectedQuiz} onCloseModal={handleCloseModal} onAnswerChange={handleAnswerChange} onQuizSolved={handleQuizSolved}/>}
@@ -150,4 +139,4 @@ function Home(){
     )
 }
 
-export default Home
+export default PublicQuizzes

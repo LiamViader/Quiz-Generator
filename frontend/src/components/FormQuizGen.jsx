@@ -49,6 +49,7 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
             } catch (error) {
                 console.log(error);
                 onErrorResponse(error);
+                setWaitingResponse(false);
             }
         }
     }

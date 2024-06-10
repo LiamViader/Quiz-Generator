@@ -24,7 +24,8 @@ export async function generateQuizChoicesWithRetry(prompt, nChoices, maxRetries 
       }
     }
     const errorMessage = `Exceeded maximum number of retries (${maxRetries}). error: ${lastError}`;
-    throw new Error(errorMessage);
+    console.log(lastError);
+    throw new Error(lastError);
 }
 
 export async function generateQuizChoicesOpenAI(prompt,nChoices): Promise<any[]> {

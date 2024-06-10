@@ -12,11 +12,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import QuizIcon from '@mui/icons-material/Quiz';
+import { NavLink } from 'react-router-dom';
 
-const pages = ['My Quizzes', 'About'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Login'];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({pages}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -39,22 +39,24 @@ function ResponsiveAppBar() {
     <AppBar position="sticky" sx={{backgroundColor: '#051923'}} >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <QuizIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2, color: '#7fffd4' }} />
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{
-              mr: 4,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: '#7fffd4',
-              textDecoration: 'none',
-            }}
-          >
-            QuizGenerator
-          </Typography>
+          <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit', display:'flex' }}>
+            <QuizIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2, color: '#7fffd4' }} />
+            <Typography
+              variant="h6"
+              noWrap
+              sx={{
+                mr: 4,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: '#7fffd4',
+                textDecoration: 'none',
+              }}
+            >
+              QuizGenerator
+            </Typography>
+          </NavLink>
             
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -87,7 +89,7 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" >{page}</Typography>
+                  <NavLink to={page.rout} style={{ textDecoration: 'none', color: 'inherit' }}>{page.name}</NavLink> {/* Utiliza Link para enlazar a las otras páginas */}
                 </MenuItem>
               ))}
             </Menu>
@@ -112,11 +114,12 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block', fontSize: '1rem' }}
+                component={NavLink} to={page.rout} // Utiliza Link como el componente del botón para enlazar a las otras páginas
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
