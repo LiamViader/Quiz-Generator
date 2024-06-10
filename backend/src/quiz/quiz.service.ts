@@ -16,6 +16,16 @@ export class QuizService {
         return await this.quizModel.find().exec();
     }
 
+    async findPublicQuizzes(page: number = 1, pageSize: number = 20): Promise<Quiz[]> {
+        const skip = (page - 1) * pageSize;
+        return this.quizModel
+            .find({ privacy: 'public' })
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(pageSize)
+            .exec();
+    }
+
     async findOne(id: string): Promise<Quiz> {
         return await this.quizModel.findById(id).exec();
     }
