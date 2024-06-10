@@ -20,9 +20,11 @@ export class GeneratorService {
         if (name=="") name="Untitled";
 
         const prompt=constructQuizPrompt(topic,difficulty,numberQuestions,language);
-        
+        console.log("GENERA LA PROMPT");
+
         try{
             const choices=await generateQuizChoicesWithRetry(prompt,1,2);
+            console.log("GENERA ELS CHOICES");
             const questions=constructQuestionsFromChoice(choices[0]);
             const quiz={
                 solved: false,

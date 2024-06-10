@@ -54,7 +54,7 @@ function ModalQuizOpened({onQuizSolved, onCloseModal, quiz, onAnswerChange}) {
                 fontSize:'1.5rem'
               }}
             >
-              {quiz.quiz.name}
+              {quiz.name}
             </Typography>
           </div>
 
@@ -71,7 +71,7 @@ function ModalQuizOpened({onQuizSolved, onCloseModal, quiz, onAnswerChange}) {
             >
             <CloseIcon />
           </IconButton>
-          <QuizOpened onSolved={handleSolved} quiz={quiz.quiz} onAnswerChange={onAnswerChange}/>
+          <QuizOpened onSolved={handleSolved} quiz={quiz} onAnswerChange={onAnswerChange}/>
           
         </Box>
         

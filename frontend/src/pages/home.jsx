@@ -13,11 +13,9 @@ function Home(){
     const [errorPopupMessage,setErrorPopupMessage] = useState(null);
     const [quizzes, setQuizzes] = useState([]);
     const [counter, setCounter] = useState(0);
-    const [data, setData] = useState(null);
 
     const [selectedQuiz, setSelectedQuiz] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [openedModalNow, setOpenedModalNow] = useState(false);
 
     const handleQuizClick = (quiz) => {
         setSelectedQuiz(quiz);
@@ -32,15 +30,13 @@ function Home(){
     const handleAnswerChange = (quizId,questionIndex,newAnswer) =>{
         setQuizzes(prevQuizzes=>
             prevQuizzes.map(quiz=>
-                quiz.quiz._id === quizId ? {
-                    ...quiz, quiz: {
-                        ...quiz.quiz,
-                        questions: quiz.quiz.questions.map((question, index) =>
-                            index === questionIndex
-                              ? { ...question, userAnswer: newAnswer }
-                              : question
-                        )
-                    }
+                quiz._id === quizId ? {
+                    ...quiz,
+                    questions: quiz.questions.map((question, index) =>
+                        index === questionIndex
+                            ? { ...question, userAnswer: newAnswer }
+                            : question
+                    )
                 } : quiz
             )
         );
@@ -49,11 +45,9 @@ function Home(){
     const handleQuizSolved = (quizId) =>{
         setQuizzes(prevQuizzes=>
             prevQuizzes.map(quiz=>
-                quiz.quiz._id === quizId ? {
-                    ...quiz, quiz: {
-                        ...quiz.quiz,
-                        solved: true,
-                    }
+                quiz._id === quizId ? {
+                    ...quiz,
+                    solved: true,
                 } : quiz
             )
         );
@@ -62,15 +56,13 @@ function Home(){
     const handleUnsolveQuiz = (quizId) =>{
         setQuizzes(prevQuizzes=>
             prevQuizzes.map(quiz=>
-                quiz.quiz._id === quizId ? {
-                    ...quiz, quiz: {
-                        ...quiz.quiz,
-                        solved: false,
-                        questions: quiz.quiz.questions.map(question => ({
-                            ...question,
-                            userAnswer: null
-                        }))
-                    }
+                quiz._id === quizId ? {
+                    ...quiz,
+                    solved: false,
+                    questions: quiz.questions.map(question => ({
+                        ...question,
+                        userAnswer: null
+                    }))
                 } : quiz
             )
         );
@@ -80,7 +72,7 @@ function Home(){
     const handleFormSumitted = () => {
         setCounter((prev)=>(prev+1));
         setQuizzes((prevQuizzes) => [
-            { loading: true, addedNow:true, tempId:counter, quiz: {} },
+            { loading: true, addedNow:true, tempId:counter },
             ...prevQuizzes
         ]);
 
@@ -107,7 +99,7 @@ function Home(){
                 return prevQuizzes;
             } else {
                 const newQuizzes = [...prevQuizzes]; // Crea una copia de la lista de quizzes
-                newQuizzes[indexToModify] = { ...newQuizzes[indexToModify], loading: false, quiz:data.data };
+                newQuizzes[indexToModify] = { ...newQuizzes[indexToModify], loading: false, ...data.data };
                 return newQuizzes;
             }
         });

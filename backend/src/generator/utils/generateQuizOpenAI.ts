@@ -16,16 +16,17 @@ export async function generateQuizChoicesWithRetry(prompt, nChoices, maxRetries 
     let lastError=null;
     while (retryCount < maxRetries) {
       try {
+        console.log("INTENT")
         return await generateQuizChoicesOpenAI(prompt, nChoices);
       } catch (error) {
         console.error(`Error in try ${retryCount + 1}:`, error);
+        console.log(error);
         retryCount++;
         lastError=error;
       }
     }
     const errorMessage = `Exceeded maximum number of retries (${maxRetries}). error: ${lastError}`;
-    console.log(lastError);
-    throw new Error(lastError);
+    throw new Error(errorMessage);
 }
 
 export async function generateQuizChoicesOpenAI(prompt,nChoices): Promise<any[]> {

@@ -1,22 +1,50 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
-import { Typography, Fade} from '@mui/material';
+import { Typography, CircularProgress, Button} from '@mui/material';
 import axios from 'axios';
 import QuizListRenderer from '../components/QuizListRenderer';
 import ModalQuizOpened from '../components/ModalQuizOpened';
 import ErrorPopup from '../components/ErrorPopup';
+import fetchPublicQuizzes from '../utils/fetchPublicQuizzes';
+import { useOnMountUnsafe } from '../hooks/useOnMountUnsafe';
+
 function PublicQuizzes(){
     const backendUrl = import.meta.env.VITE_API_URL; //url de servidor backend
-
+    const [quizzesPage,setQuizzesPage] = useState(1);
     const [errorPopupMessage,setErrorPopupMessage] = useState(null);
     const [quizzes, setQuizzes] = useState([]);
-    const [counter, setCounter] = useState(0);
-    const [data, setData] = useState(null);
 
     const [selectedQuiz, setSelectedQuiz] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [openedModalNow, setOpenedModalNow] = useState(false);
+    const [fetchingData, setfetchingData] = useState(false);
+
+    async function fetchData(){
+        setfetchingData(true);
+        try {
+            const response= await fetchPublicQuizzes(quizzesPage,15);
+            console.log(response);
+            setfetchingData(false);
+            handleReceivedQuizzes(response);
+        } catch (error) {
+            setfetchingData(false);
+            handleErrorResponse(error);
+        }
+    }
+
+    useOnMountUnsafe(() => {
+        fetchData();
+    }, []); 
+
+    const handleReceivedQuizzes=(data)=>{
+        if(data.length==0) setErrorPopupMessage("No more public quizzes available");
+        setQuizzesPage((prevQuizzesPage)=>prevQuizzesPage+1);
+        setQuizzes((prevQuizzes)=>(
+            [...prevQuizzes,...data]
+        ));
+        console.log(1);
+    };
 
     const handleQuizClick = (quiz) => {
         setSelectedQuiz(quiz);
@@ -31,15 +59,13 @@ function PublicQuizzes(){
     const handleAnswerChange = (quizId,questionIndex,newAnswer) =>{
         setQuizzes(prevQuizzes=>
             prevQuizzes.map(quiz=>
-                quiz.quiz._id === quizId ? {
-                    ...quiz, quiz: {
-                        ...quiz.quiz,
-                        questions: quiz.quiz.questions.map((question, index) =>
-                            index === questionIndex
-                              ? { ...question, userAnswer: newAnswer }
-                              : question
-                        )
-                    }
+                quiz._id === quizId ? {
+                    ...quiz,
+                    questions: quiz.questions.map((question, index) =>
+                        index === questionIndex
+                            ? { ...question, userAnswer: newAnswer }
+                            : question
+                    )
                 } : quiz
             )
         );
@@ -48,11 +74,9 @@ function PublicQuizzes(){
     const handleQuizSolved = (quizId) =>{
         setQuizzes(prevQuizzes=>
             prevQuizzes.map(quiz=>
-                quiz.quiz._id === quizId ? {
-                    ...quiz, quiz: {
-                        ...quiz.quiz,
-                        solved: true
-                    }
+                quiz._id === quizId ? {
+                    ...quiz,
+                    solved: true,
                 } : quiz
             )
         );
@@ -61,58 +85,25 @@ function PublicQuizzes(){
     const handleUnsolveQuiz = (quizId) =>{
         setQuizzes(prevQuizzes=>
             prevQuizzes.map(quiz=>
-                quiz.quiz._id === quizId ? {
-                    ...quiz, quiz: {
-                        ...quiz.quiz,
-                        solved: false,
-                        questions: quiz.quiz.questions.map(question => ({
-                            ...question,
-                            userAnswer: null
-                        }))
-                    }
+                quiz._id === quizId ? {
+                    ...quiz,
+                    solved: false,
+                    questions: quiz.questions.map(question => ({
+                        ...question,
+                        userAnswer: null
+                    }))
                 } : quiz
             )
         );
     }
     
-    const handleFormSumitted = () => {
-        setCounter((prev)=>(prev+1));
-        setQuizzes((prevQuizzes) => [
-            { loading: true, addedNow:true, tempId:counter, quiz: {} },
-            ...prevQuizzes
-        ]);
 
+    const handleLoadMore=()=>{
+        fetchData();
     }
 
-    function deleteLoadingQuiz(){
-        setQuizzes(prevQuizzes => {
-            const indexToDelete = prevQuizzes.slice().reverse().findIndex(quiz => quiz.loading);
-            
-            if (indexToDelete === -1) {
-                return prevQuizzes;
-            } else {
-                const newQuizzes = prevQuizzes.filter((_, index) => index !== prevQuizzes.length - 1 - indexToDelete);
-                return newQuizzes;
-            }
-        });
-    }
-
-    const handleResponse=(data)=>{
-        setQuizzes(prevQuizzes => {
-            let indexToModify = prevQuizzes.slice().reverse().findIndex(quiz => quiz.loading);
-            indexToModify=prevQuizzes.length-1-indexToModify;
-            if (indexToModify === -1) {
-                return prevQuizzes;
-            } else {
-                const newQuizzes = [...prevQuizzes]; // Crea una copia de la lista de quizzes
-                newQuizzes[indexToModify] = { ...newQuizzes[indexToModify], loading: false, quiz:data.data };
-                return newQuizzes;
-            }
-        });
-    }
 
     const handleErrorResponse=(error)=>{
-        deleteLoadingQuiz();
         const errorMessage = error.response?.data?.message || error.message || 'An error just happened';
         setErrorPopupMessage(errorMessage);
     }
@@ -131,7 +122,16 @@ function PublicQuizzes(){
             </div>  
             <hr style={{minWidth:'20rem', backgroundColor:'gray',border: 'none', height: '1px',  width: '30%', margin: '0 10px', marginLeft:'auto', marginRight:'auto' }} />
             <div style={{paddingLeft:'1rem', paddingRight:'1rem', minWidth:'20rem', marginTop: '2rem',}}>
+                 
                 <QuizListRenderer quizList={quizzes} onQuizClick={handleQuizClick} onUnsolve={handleUnsolveQuiz}/>
+                {fetchingData && <div style={{ marginLeft:'auto', marginRight:'auto', width:'10rem',  display:'flex', marginTop:'1rem'}}><CircularProgress size='3.5rem' sx={{color:'gray', marginLeft:'auto', marginRight:'auto'}} /></div>}
+                {!fetchingData && 
+                    <div style={{display:'flex', alignItems:'center',  marginTop:'3rem'}}>
+                        <Button size="small" variant="contained" sx={{backgroundColor: '#537779','&:hover': { backgroundColor: '#4a5f69',}, marginLeft:'auto', marginRight:'auto'}} onClick={handleLoadMore}>
+                            Load More
+                        </Button>
+                    </div>
+                }
             </div>
             {showModal &&  selectedQuiz && <ModalQuizOpened  quiz={selectedQuiz} onCloseModal={handleCloseModal} onAnswerChange={handleAnswerChange} onQuizSolved={handleQuizSolved}/>}
             {errorPopupMessage && <ErrorPopup errorMessage={errorPopupMessage} onClose={() => setErrorPopupMessage(null)} />}

@@ -21,6 +21,7 @@ export class GeneratorController {
 
     @Post('generate-quiz')
     async create(@Body() createRequestDto: GeneratorRequestDto) {
+        console.log("ENTRA AL POST");
         const result = await this.generatorService.generateQuiz(createRequestDto);
         return result;
     }
