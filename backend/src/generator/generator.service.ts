@@ -25,6 +25,7 @@ export class GeneratorService {
         console.log("GENERA LA PROMPT");
 
         try{
+            console.log(name);
             const choices=await generateQuizChoicesWithRetry(prompt,1,2);
             console.log("GENERA ELS CHOICES");
             const questions=constructQuestionsFromChoice(choices[0]);
