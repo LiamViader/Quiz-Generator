@@ -5,6 +5,7 @@ import { generateQuizChoicesOpenAI } from './utils/generateQuizOpenAI';
 import { constructQuestionsFromChoice } from './utils/constructQuizFromChoice';
 import { QuizService } from 'src/quiz/quiz.service';
 import { Quiz } from 'src/quiz/quiz.model';
+import { generateQuizChoicesWithRetry } from './utils/generateQuizOpenAI';
 @Injectable()
 export class GeneratorService {
     constructor(private readonly quizService: QuizService) {}
@@ -21,7 +22,7 @@ export class GeneratorService {
         const prompt=constructQuizPrompt(topic,difficulty,numberQuestions,language);
         
         try{
-            const choices=await generateQuizChoicesOpenAI(prompt,1);
+            const choices=await generateQuizChoicesWithRetry(prompt,1,2);
             const questions=constructQuestionsFromChoice(choices[0]);
             const quiz={
                 solved: false,
@@ -39,7 +40,7 @@ export class GeneratorService {
                 data: createdQuiz,
             };
         } catch(error){
-            throw new HttpException('Failed to generate quiz:'+error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new HttpException('Failed to generate quiz: '+error.message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         
     }

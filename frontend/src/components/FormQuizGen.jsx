@@ -35,7 +35,6 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
             setWaitingResponse(true);
             onSubmit();
             try {
-                console.log(numberQuestions)
                 const response = await axios.post(`${generateQuizUrl}`, {
                     topic: topicInput,
                     difficulty: difficulty,
@@ -130,7 +129,7 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
                         Number of Questions:
                     </Typography>
                     <div style={{width: '90%', marginRight:'5%'}}>
-                        <Slider onChange={handleSliderChange} defaultValue={numberQuestions} aria-label="Default" valueLabelDisplay="auto"  marks min={1} max={10} sx={{ color: '#00cf89' }}/>
+                        <Slider onChange={handleSliderChange} value={numberQuestions} aria-label="Default" valueLabelDisplay="auto"  marks min={1} max={10} sx={{ color: '#00cf89' }}/>
                         <Grid container spacing={2} sx={{}}>
                             <Grid item xs={6} sx={{marginLeft: 'auto'}} >
                                 <FormControl sx={{ m: 1, minWidth: 80 }} size="small">

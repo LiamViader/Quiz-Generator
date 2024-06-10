@@ -11,6 +11,22 @@ const apiVersion = "2024-05-01-preview";
 const deployment = "gpt4"; //This must match your deployment name.
 require("dotenv/config");
 
+export async function generateQuizChoicesWithRetry(prompt, nChoices, maxRetries = 3): Promise<any[]> {
+    let retryCount = 0;
+    let lastError=null;
+    while (retryCount < maxRetries) {
+      try {
+        return await generateQuizChoicesOpenAI(prompt, nChoices);
+      } catch (error) {
+        console.error(`Error in try ${retryCount + 1}:`, error);
+        retryCount++;
+        lastError=error;
+      }
+    }
+    const errorMessage = `Exceeded maximum number of retries (${maxRetries}). error: ${lastError}`;
+    throw new Error(errorMessage);
+}
+
 export async function generateQuizChoicesOpenAI(prompt,nChoices): Promise<any[]> {
 
   const client = new AzureOpenAI({ endpoint, apiKey, apiVersion, deployment });
