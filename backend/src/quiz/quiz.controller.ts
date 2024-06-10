@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
 import { QuizService } from './quiz.service';
 import { Quiz } from './quiz.model';
 
@@ -7,8 +7,11 @@ import { Quiz } from './quiz.model';
 export class QuizController {
     constructor(private readonly quizService: QuizService) {}
     
-    @Get('public') // Obtener todos los quizzes públicos
-    async getPublicQuizzes(@Query('page') page: number, @Query('pageSize') pageSize: number): Promise<Quiz[]> {
+    @Get('public')
+    async getPublicQuizzes(
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+        @Query('pageSize', new DefaultValuePipe(10), ParseIntPipe) pageSize: number,
+    ): Promise<Quiz[]> {
         return this.quizService.findPublicQuizzes(page, pageSize);
     }
 }

@@ -16,7 +16,7 @@ export class QuizService {
         return await this.quizModel.find().exec();
     }
 
-    async findPublicQuizzes(page: number = 1, pageSize: number = 20): Promise<Quiz[]> {
+    async findPublicQuizzes(page: number = 1, pageSize: number = 10): Promise<Quiz[]> {
         const skip = (page - 1) * pageSize;
         return this.quizModel
             .find({ privacy: 'public' })
