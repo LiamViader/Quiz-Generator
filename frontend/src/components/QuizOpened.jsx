@@ -17,7 +17,7 @@ function QuizOpened({onSolved, quiz, onAnswerChange}){
             };
             return updatedQuiz;
         });
-        onAnswerChange(quizState.id, questionIndex, newAnswer);
+        onAnswerChange(quizState._id, questionIndex, newAnswer);
     }
 
     const onSend=(event) => {
@@ -26,7 +26,7 @@ function QuizOpened({onSolved, quiz, onAnswerChange}){
                 ...prevQuiz,
                 solved: true
             };
-            onSolved(updatedQuiz.id);
+            onSolved(updatedQuiz._id);
             return updatedQuiz;
         });
     }
@@ -49,7 +49,7 @@ function QuizOpened({onSolved, quiz, onAnswerChange}){
             }
 
             {quizState.questions && quizState.questions.map((question, index) => (
-                <Question solved={quizState.solved} question={question} questionIndex={index} key={index} onAnswerChange={handleAnswerChange}/>
+                <Question solved={quizState.solved} question={question} questionIndex={index} key={question._id} onAnswerChange={handleAnswerChange}/>
             ))}
 
             {!quizState.solved ?

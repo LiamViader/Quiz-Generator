@@ -6,15 +6,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from "react";
 
 function QuizClosed({quiz, onQuizClick}){
-    // Estado para manejar la apertura/cierre del menú
+
     const [anchorEl, setAnchorEl] = useState(null);
     
-    // Opciones del menú
-    const options = [
-        { id: 1, label: 'Chan' },
-        { id: 2, label: 'Option 2' },
-        { id: 3, label: 'Option 3' }
-    ];
 
     const handleClickMenu = (event) => {
         event.stopPropagation();

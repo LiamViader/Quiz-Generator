@@ -9,65 +9,6 @@ import ModalQuizOpened from '../components/ModalQuizOpened';
 function Home(){
     const backendUrl = import.meta.env.VITE_API_URL; //url de servidor backend
 
-    const exampleQuiz ={
-        loading: true,
-        quiz: {
-
-        }
-    }
-
-    const exampleQuiz2 ={
-        loading: false,
-        quiz: {
-            id: "12123eddsd",
-            privacy: "private",
-            name: "QUEPASAAAAAAAAAAAAAAAAAAAAA",
-            solved: true
-        }
-    }
-
-    const exampleQuiz3 ={
-        loading: false,
-        quiz: {
-            id: "12123sdffeddsd",
-            privacy: "private",
-            name: "Hola",
-            topic: "cloud computing",
-            solved: false,
-            questions: [
-                {
-                    question: "Com et dius?AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    answers: [
-                        "LiamAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                        "Manel",
-                        "Pedro"
-                    ],
-                    correctAnswer: 0,
-                    userAnswer: null
-                },
-                {
-                    question: "Com et dius?",
-                    answers: [
-                        "Liam",
-                        "Manel",
-                        "Pedro"
-                    ],
-                    correctAnswer: 0,
-                    userAnswer: 1
-                },
-                {
-                    question: "Com et dius?",
-                    answers: [
-                        "Liam",
-                        "Manel",
-                        "Pedro"
-                    ],
-                    correctAnswer: 0,
-                    userAnswer: 1
-                },
-            ]
-        }
-    }
 
     const [quizzes, setQuizzes] = useState([]);
     const [counter, setCounter] = useState(0);
@@ -90,7 +31,7 @@ function Home(){
     const handleAnswerChange = (quizId,questionIndex,newAnswer) =>{
         setQuizzes(prevQuizzes=>
             prevQuizzes.map(quiz=>
-                quiz.quiz.id === quizId ? {
+                quiz.quiz._id === quizId ? {
                     ...quiz, quiz: {
                         ...quiz.quiz,
                         questions: quiz.quiz.questions.map((question, index) =>
@@ -107,7 +48,7 @@ function Home(){
     const handleQuizSolved = (quizId) =>{
         setQuizzes(prevQuizzes=>
             prevQuizzes.map(quiz=>
-                quiz.quiz.id === quizId ? {
+                quiz.quiz._id === quizId ? {
                     ...quiz, quiz: {
                         ...quiz.quiz,
                         solved: true
