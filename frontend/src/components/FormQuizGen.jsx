@@ -135,7 +135,7 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
                             <Grid item xs={6} sx={{marginLeft: 'auto'}} >
                                 <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
                                     <InputLabel id="difficulty-label">Difficulty</InputLabel>
-                                    <Select labelId="difficulty-label" id="difficulty" value={difficulty} onChange={handleDifficultyChange} autoWidth label="difficulty">
+                                    <Select labelId="difficulty-label" id="difficulty" value={difficulty} onChange={handleDifficultyChange} autoWidth label="difficulty" sx={{backgroundColor:'white'}}>
                                         <MenuItem value={'very easy'}>Basic</MenuItem>
                                         <MenuItem value={'easy'}>Easy</MenuItem>
                                         <MenuItem value={'medium'}>Medium</MenuItem>
@@ -147,7 +147,7 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
                             <Grid item xs={6}>
                                 <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
                                     <InputLabel id="language-label">Language</InputLabel>
-                                    <Select labelId="language-label" id="language" value={language} onChange={handleLanguageChange} autoWidth label="language">
+                                    <Select labelId="language-label" id="language" value={language} onChange={handleLanguageChange} autoWidth label="language" sx={{backgroundColor:'white'}}>
                                         <MenuItem value={'english'}>English</MenuItem>
                                         <MenuItem value={'spanish'}>Spanish</MenuItem>
                                         <MenuItem value={'catalan'}>Catalan</MenuItem>
@@ -164,7 +164,7 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
                             <Grid item xs={6}>
                                 <FormControl sx={{ m: 1, minWidth: 80}} size="small">
                                     <InputLabel id="privacy-label">Privacy</InputLabel>
-                                    <Select labelId="privacy-label" id="privacy" value={privacyInput} onChange={handlePrivacyChange} autoWidth label="privacy">
+                                    <Select labelId="privacy-label" id="privacy" value={privacyInput} onChange={handlePrivacyChange} autoWidth label="privacy" sx={{backgroundColor:'white'}}>
                                         <MenuItem value={'private'}>Private</MenuItem>
                                         <MenuItem value={'public'}>Public</MenuItem>
                                     </Select>

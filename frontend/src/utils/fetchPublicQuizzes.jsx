@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const backendUrl = import.meta.env.VITE_API_URL;
-const endpoint = "/quiz/public";
+const endpoint = "/quizzes/public";
 const publicQuizzesUrl=backendUrl+endpoint;
 
 async function fetchPublicQuizzes(page, pageSize) {

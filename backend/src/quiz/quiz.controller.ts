@@ -3,8 +3,8 @@ import { QuizService } from './quiz.service';
 import { Quiz } from './quiz.model';
 
 
-@Controller('quiz')
-export class QuizController {
+@Controller('quizzes')
+export class QuizzesController {
     constructor(private readonly quizService: QuizService) {}
     
     @Get('public')

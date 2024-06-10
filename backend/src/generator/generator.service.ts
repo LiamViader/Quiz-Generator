@@ -6,6 +6,7 @@ import { constructQuestionsFromChoice } from './utils/constructQuizFromChoice';
 import { QuizService } from 'src/quiz/quiz.service';
 import { Quiz } from 'src/quiz/quiz.model';
 import { generateQuizChoicesWithRetry } from './utils/generateQuizOpenAI';
+import { shapeQuizName } from './utils/shapeQuizName';
 @Injectable()
 export class GeneratorService {
     constructor(private readonly quizService: QuizService) {}
@@ -17,7 +18,8 @@ export class GeneratorService {
         const language=createRequestDto.language;
         const privacy=createRequestDto.privacy;
         let name=createRequestDto.name;
-        if (name=="") name="Untitled";
+        name=shapeQuizName(name);
+
 
         const prompt=constructQuizPrompt(topic,difficulty,numberQuestions,language);
         console.log("GENERA LA PROMPT");
