@@ -124,10 +124,10 @@ function PublicQuizzes(){
             <div style={{paddingLeft:'1rem', paddingRight:'1rem', minWidth:'20rem', marginTop: '2rem',}}>
                  
                 <QuizListRenderer quizList={quizzes} onQuizClick={handleQuizClick} onUnsolve={handleUnsolveQuiz}/>
-                {fetchingData && <div style={{ marginLeft:'auto', marginRight:'auto', width:'10rem',  display:'flex', marginTop:'1rem'}}><CircularProgress size='3.5rem' sx={{color:'gray', marginLeft:'auto', marginRight:'auto'}} /></div>}
+                {fetchingData && <div style={{ marginLeft:'auto', marginRight:'auto', width:'10rem',  display:'flex', marginTop:'2rem'}}><CircularProgress size='3.5rem' sx={{color:'gray', marginLeft:'auto', marginRight:'auto'}} /></div>}
                 {!fetchingData && 
                     <div style={{display:'flex', alignItems:'center',  marginTop:'3rem'}}>
-                        <Button size="small" variant="contained" sx={{backgroundColor: '#537779','&:hover': { backgroundColor: '#4a5f69',}, marginLeft:'auto', marginRight:'auto'}} onClick={handleLoadMore}>
+                        <Button size="small" variant="contained" sx={{backgroundColor: '#83a8aa','&:hover': { backgroundColor: '#4a5f69',}, marginLeft:'auto', marginRight:'auto'}} onClick={handleLoadMore}>
                             Load More
                         </Button>
                     </div>
