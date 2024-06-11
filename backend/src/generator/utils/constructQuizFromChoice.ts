@@ -1,5 +1,4 @@
-import { UsernamePasswordCredential } from "@azure/identity";
-import { repl } from "@nestjs/core";
+
 
 function safe(choice:any):boolean{
     return choice.hate=="safe" && choice.self_harm=="safe" && choice.sexual=="safe" && choice.violence=="safe";
