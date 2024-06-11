@@ -27,6 +27,7 @@ jobs:
         run: |
           cd backend
           npm install
+          npm list
           npm run build --if-present
       - name: Zip artifact for deployment
         run: zip release.zip ./backend/* -r
