@@ -6,8 +6,16 @@ import { MongoModule } from './mongo/mongo.module';
 import { QuizModule } from './quiz/quiz.module';
 import { ConfigModule } from '@nestjs/config';
 
+
+
 @Module({
-  imports: [GeneratorModule, MongoModule, QuizModule,ConfigModule.forRoot()],
+  imports: [GeneratorModule, 
+    MongoModule, 
+    QuizModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    })
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
