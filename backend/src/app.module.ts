@@ -12,7 +12,7 @@ import { ConfigModule } from '@nestjs/config';
   imports: [GeneratorModule, 
     MongoModule, 
     QuizModule,
-    ConfigModule.forRoot({})
+    ConfigModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService],

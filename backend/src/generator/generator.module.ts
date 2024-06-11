@@ -6,7 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
     imports: [
         QuizModule,
-        ConfigModule,
+        ConfigModule.forRoot(),
     ],
     controllers: [GeneratorController],
     providers: [GeneratorService]
