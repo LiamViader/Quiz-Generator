@@ -25,7 +25,6 @@ export function constructQuizPrompt(topic:string,difficulty:string,numberQuestio
 
 
 
-
     return messages;
   
 }
