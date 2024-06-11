@@ -4,8 +4,9 @@ import { GeneratorService } from './generator.service';
 import { QuizModule } from 'src/quiz/quiz.module';
 import { ConfigModule } from '@nestjs/config';
 @Module({
-    imports: [QuizModule,
-        ConfigModule
+    imports: [
+        QuizModule,
+        ConfigModule,
     ],
     controllers: [GeneratorController],
     providers: [GeneratorService]

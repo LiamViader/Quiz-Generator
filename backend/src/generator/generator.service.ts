@@ -7,9 +7,17 @@ import { QuizService } from 'src/quiz/quiz.service';
 import { Quiz } from 'src/quiz/quiz.model';
 import { generateQuizChoicesWithRetry } from './utils/generateQuizOpenAI';
 import { shapeQuizName } from './utils/shapeQuizName';
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class GeneratorService {
-    constructor(private readonly quizService: QuizService) {}
+    private endpointGPT4: string;
+    private apiKeyGPT4: string;
+
+    constructor(private readonly quizService: QuizService, private readonly configService: ConfigService,) {
+        this.endpointGPT4 = this.configService.get<string>('AZURE_OPENAI_ENDPOINT');
+        this.apiKeyGPT4 = this.configService.get<string>('AZURE_OPENAI_API_KEY');
+        
+    }
 
     async generateQuiz(createRequestDto: GeneratorRequestDto) {
         const topic=createRequestDto.topic;
@@ -26,7 +34,7 @@ export class GeneratorService {
 
         try{
             console.log(name);
-            const choices=await generateQuizChoicesWithRetry(prompt,1,2);
+            const choices=await generateQuizChoicesWithRetry(prompt,1,2,this.endpointGPT4,this.apiKeyGPT4);
             console.log("GENERA ELS CHOICES");
             const questions=constructQuestionsFromChoice(choices[0]);
             const quiz={
