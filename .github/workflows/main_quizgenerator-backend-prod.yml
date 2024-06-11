@@ -27,6 +27,7 @@ jobs:
         run: |
           cd backend
           npm install -g @nestjs/cli
+          npm install @nestjs/config
           npm install
           npm run build
       - name: Zip artifact for deployment
