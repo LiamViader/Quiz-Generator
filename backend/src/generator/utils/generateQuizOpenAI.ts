@@ -1,7 +1,7 @@
 const { AzureOpenAI } = require("openai");
 const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
 const apiKey = process.env["AZURE_OPENAI_API_KEY"];
-const apiVersion = "2024-05-01-preview";
+const apiVersion = "2024-02-01";
 const deployment = "gpt4";
 export async function generateQuizChoicesWithRetry(prompt:any[], nChoices:number, maxRetries:number = 3): Promise<any[]> {
     let retryCount = 0;
@@ -37,7 +37,7 @@ export async function generateQuizChoicesOpenAI(prompt:any[],nChoices:number): P
         throw new Error('No response choices available');
     }
   } catch(error){
-    console.error('Error generating the message', error);
+    console.log('Error generating the message', error);
     throw error;
   }
 
