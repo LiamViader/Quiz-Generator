@@ -1,49 +1,46 @@
 
 
-function safe(choice:any):boolean{
-    return choice.hate=="safe" && choice.self_harm=="safe" && choice.sexual=="safe" && choice.violence=="safe";
+
+function safe(choice: any): boolean {
+    return choice.hate == "safe" && choice.self_harm == "safe" && choice.sexual == "safe" && choice.violence == "safe";
 }
 
-function formattedQuestions(questions:Array<any>):boolean{
-    if(questions.length<=0) return false;
-    
-    let firstLen=questions[0].answers.length;
-    for (let i=0; i<questions.length; i++){
-        if(questions[i].answers.length!=firstLen) return false;
-        if(questions[i].correctAnswer<0 || questions[i].correctAnswer>=questions[i].answers.length)return false;
+export function constructQuestionsFromChoice(choice: any): Array<any> {
+    if (choice.content_filter_results && !safe(choice.content_filter_results)) {
+        throw new Error('content not safe');
     }
 
-    return true;
-}
+    const content = choice.message.content;
+    let parsedContent;
 
-export function constructQuestionsFromChoice(choice:any):Array<any>{ 
-    if(safe(choice.content_filter_results)) throw new Error('content not safe');
-    const quizMessageWithoutNewLines = choice.message.content.replace(/\n/g, "");
-    if(choice.message.content=="NA") throw new Error('topic dont make sense');
-    const questions = quizMessageWithoutNewLines.split(/\d+\.\s/).filter(Boolean).map(question => question.replace(/^\s+/,""));
-    const finalQuestions=[]
-    for(let i=0; i<questions.length;i++) {
-        let answers=questions[i].split(/[a-z]\) /).filter(Boolean);
-        let correctAnswerSplit=answers[answers.length-1].split(/CA\) /).filter(Boolean);
-        let correctAnswer=correctAnswerSplit[correctAnswerSplit.length-1];
-        correctAnswer.replace(/CA\) /,"");
-        answers.map(question => question.replace(/[a-z]\) /));
-        let finalAnswers=[...answers.slice(1,-1),correctAnswerSplit[0]];
-        const AsciiA = 'a'.charCodeAt(0);
-        let characterAnswer=correctAnswer.charAt(0);
-        const AsciiSol = characterAnswer.charCodeAt(0);
-        let posCorrectAnswer=AsciiSol-AsciiA;
-        let actualFinalQuestion={
-            question: answers[0],
-            answers: finalAnswers,
-            userAnswer: null,
-            correctAnswer: posCorrectAnswer
-        };
-        finalQuestions.push(actualFinalQuestion);
+    try {
+        parsedContent = JSON.parse(content);
+    } catch (e) {
+        // Fallback: try to find JSON object if wrapped in markdown code blocks
+        const jsonMatch = content.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+            try {
+                parsedContent = JSON.parse(jsonMatch[0]);
+            } catch (innerE) {
+                throw new Error("Failed to parse JSON response");
+            }
+        } else {
+            throw new Error("Failed to parse JSON response");
+        }
     }
-    
-    if(!formattedQuestions(finalQuestions)) throw new Error('something went wrong while formatting the quiz');
-    
-    return finalQuestions;
-  
+
+    if (parsedContent.error === "NA") {
+        throw new Error('topic dont make sense');
+    }
+
+    if (!parsedContent.questions || !Array.isArray(parsedContent.questions)) {
+        throw new Error('Invalid JSON format: missing questions array');
+    }
+
+    return parsedContent.questions.map(q => ({
+        question: q.question,
+        answers: q.options,
+        userAnswer: null,
+        correctAnswer: q.correctAnswerIndex
+    }));
 }
