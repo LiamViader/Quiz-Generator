@@ -8,12 +8,22 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import axios from "axios";
 
 
-function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
+function FormQuizGenerator({ onSubmit, onResponse, onErrorResponse }) {
     const backendUrl = import.meta.env.VITE_API_URL;
     const endpoint = "/generator/generate-quiz";
-    const generateQuizUrl=backendUrl+endpoint;
+    const generateQuizUrl = backendUrl + endpoint;
 
-    const example_topics=["Rick & Morty", "about making the most ethical decision in different scenarios", "catalan culture", "about the best rappers of the 21 century"];
+    const example_topics = [
+        "Rick & Morty",
+        "Quantum Physics for 5-year-olds",
+        "The history of Pizza",
+        "Cybersecurity best practices in 2024",
+        "Lord of the Rings trivia",
+        "Javascript",
+        "The French Revolution",
+        "90s Rock Music",
+        "Ethical dilemmas in AI"
+    ];
 
     const [topicInput, setTopicInput] = useState("");
     const [numberQuestions, setNumberQuestions] = useState(7);
@@ -25,13 +35,13 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
     const [nameInput, setNameInput] = useState("");
     const [privacyInput, setPrivacyInput] = useState("private");
 
-    const handleSubmit = async (event) =>{
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        if(!waitingResponse){
+        if (!waitingResponse) {
             let name;
-            if(nameInput=="") name=topicInput;
-            else name=nameInput;
-            if(showingOptions) toggleOptions();
+            if (nameInput == "") name = topicInput;
+            else name = nameInput;
+            if (showingOptions) toggleOptions();
             setWaitingResponse(true);
             onSubmit();
             try {
@@ -44,8 +54,9 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
                     privacy: privacyInput
                 });
                 onResponse(response.data);
+                setNameInput("");
                 setWaitingResponse(false);
-    
+
             } catch (error) {
                 console.log(error);
                 onErrorResponse(error);
@@ -54,88 +65,88 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
         }
     }
 
-    const handleSliderChange = (e) =>{
+    const handleSliderChange = (e) => {
         setNumberQuestions(parseInt(e.target.value));
     }
 
-    const handleTopicChange = (event) =>{
+    const handleTopicChange = (event) => {
         setTopicInput(event.target.value);
     }
 
-    const handleDifficultyChange = (event) =>{
+    const handleDifficultyChange = (event) => {
         setDifficulty(event.target.value);
     }
 
-    const handleLanguageChange = (event) =>{
+    const handleLanguageChange = (event) => {
         setLanguage(event.target.value);
     }
 
-    const handleNameChange = (event) =>{
+    const handleNameChange = (event) => {
         setNameInput(event.target.value);
     }
 
-    const handlePrivacyChange = (event) =>{
+    const handlePrivacyChange = (event) => {
         setPrivacyInput(event.target.value);
     }
 
-    const randomTopic = (event) =>{
+    const randomTopic = (event) => {
         setExampleTopicIndex(prevIndex => {
             let newIndex = -1;
-            if(prevIndex+1<example_topics.length)  newIndex=prevIndex+1;
-            else newIndex=0;
+            if (prevIndex + 1 < example_topics.length) newIndex = prevIndex + 1;
+            else newIndex = 0;
             return newIndex;
-          });
+        });
         setTopicInput(example_topics[exampleTopicIndex]);
     }
 
-    const toggleOptions = () =>{
+    const toggleOptions = () => {
         setShowingOptions(prevOptions => !prevOptions)
     }
 
     return (
-        <form onSubmit={handleSubmit} style={{marginLeft:'auto', marginRight:'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '50rem', padding:'2rem'}} >
+        <form onSubmit={handleSubmit} style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '50rem', padding: '2rem' }} >
             <Grid container spacing={2}>
                 <Grid item xs={11}>
-                    <TextField onChange={handleTopicChange} disabled={waitingResponse} value={topicInput} sx={{marginRight:'1rem', backgroundColor: 'white', width:'100%'}} fullWidth id="quizGenInput" label="Your Topic" variant="outlined" required placeholder="e.g Cloud computing and distributed systems" InputLabelProps={{ shrink: true }} inputProps={{ maxLength: 120 }}/>
+                    <TextField onChange={handleTopicChange} disabled={waitingResponse} value={topicInput} sx={{ marginRight: '1rem', backgroundColor: 'white', width: '100%' }} fullWidth id="quizGenInput" label="Your Topic" variant="outlined" required placeholder="e.g Cloud computing and distributed systems" InputLabelProps={{ shrink: true }} inputProps={{ maxLength: 120 }} />
                 </Grid>
                 <Grid item xs={1}>
-                    <div style={{display: 'flex',flexDirection: 'column'}}>
-                        <IconButton onClick={randomTopic} aria-label="reroll"  sx={{ color:'#051923', marginLeft: 'auto', marginRight: 'auto'}}>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <IconButton onClick={randomTopic} aria-label="reroll" sx={{ color: '#051923', marginLeft: 'auto', marginRight: 'auto' }}>
                             <ChangeIcon />
                         </IconButton>
-                        <Typography textAlign="center" variant="h2" sx={{ fontSize: '10px', color:'#051923'}}>
-                        example prompt
+                        <Typography textAlign="center" variant="h2" sx={{ fontSize: '10px', color: '#051923' }}>
+                            example prompt
                         </Typography>
                     </div>
                 </Grid>
             </Grid>
-                <Grid container alignItems="center" style={{ marginTop: '2rem' }}>
-                    <Grid item xs={7} sx={{display:'flex', flexDirection: 'row'}}>
-                        <Typography onClick={toggleOptions} textAlign="left" variant="h1" sx={{ fontSize: '1rem', fontWeight: 'bold', color: '#051923', marginTop:'auto', marginBottom:'auto'}}>
+            <Grid container alignItems="center" style={{ marginTop: '2rem' }}>
+                <Grid item xs={7} sx={{ display: 'flex', flexDirection: 'row' }}>
+                    <Typography onClick={toggleOptions} textAlign="left" variant="h1" sx={{ fontSize: '1rem', fontWeight: 'bold', color: '#051923', marginTop: 'auto', marginBottom: 'auto' }}>
                         More Options
-                        </Typography>
-                        <IconButton onClick={toggleOptions} aria-label="toggleOptions" sx={{ color: '#051923', marginLeft:'0.3rem'}}>
+                    </Typography>
+                    <IconButton onClick={toggleOptions} aria-label="toggleOptions" sx={{ color: '#051923', marginLeft: '0.3rem' }}>
                         {showingOptions ? <ArrowDropUpIcon /> : <ArrowDropDownCircleIcon />}
-                        </IconButton>
-                    </Grid>
-                    <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end'}}>
-                        <Button disabled={waitingResponse} type="submit" variant="contained" endIcon={<AutoFixHighIcon />} sx={{backgroundColor:'#00cf89', minWidth:'60%', '&:hover': {backgroundColor: '#00a16b', boxShadow: 'none'},}}>
-                        GENERATE
-                        </Button>
-                    </Grid>
+                    </IconButton>
                 </Grid>
-            <Collapse in={showingOptions} sx={{width:'100%'}}>
-                <div style={{marginTop:'1rem', display:'block', width:'90%', marginLeft: '7%'}}>
-                    <Typography textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', color:'#051923'  }}>
+                <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button disabled={waitingResponse} type="submit" variant="contained" endIcon={<AutoFixHighIcon />} sx={{ backgroundColor: '#00cf89', minWidth: '60%', '&:hover': { backgroundColor: '#00a16b', boxShadow: 'none' }, }}>
+                        GENERATE
+                    </Button>
+                </Grid>
+            </Grid>
+            <Collapse in={showingOptions} sx={{ width: '100%' }}>
+                <div style={{ marginTop: '1rem', display: 'block', width: '90%', marginLeft: '7%' }}>
+                    <Typography textAlign="left" variant="h1" sx={{ fontSize: '1.2rem', color: '#051923' }}>
                         Number of Questions:
                     </Typography>
-                    <div style={{width: '90%', marginRight:'5%'}}>
-                        <Slider onChange={handleSliderChange} value={numberQuestions} aria-label="Default" valueLabelDisplay="auto"  marks min={1} max={10} sx={{ color: '#00cf89' }}/>
+                    <div style={{ width: '90%', marginRight: '5%' }}>
+                        <Slider onChange={handleSliderChange} value={numberQuestions} aria-label="Default" valueLabelDisplay="auto" marks min={1} max={10} sx={{ color: '#00cf89' }} />
                         <Grid container spacing={2} sx={{}}>
-                            <Grid item xs={6} sx={{marginLeft: 'auto'}} >
+                            <Grid item xs={6} sx={{ marginLeft: 'auto' }} >
                                 <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
                                     <InputLabel id="difficulty-label">Difficulty</InputLabel>
-                                    <Select labelId="difficulty-label" id="difficulty" value={difficulty} onChange={handleDifficultyChange} autoWidth label="difficulty" sx={{backgroundColor:'white'}}>
+                                    <Select labelId="difficulty-label" id="difficulty" value={difficulty} onChange={handleDifficultyChange} autoWidth label="difficulty" sx={{ backgroundColor: 'white' }}>
                                         <MenuItem value={'very easy'}>Basic</MenuItem>
                                         <MenuItem value={'easy'}>Easy</MenuItem>
                                         <MenuItem value={'medium'}>Medium</MenuItem>
@@ -147,7 +158,7 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
                             <Grid item xs={6}>
                                 <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
                                     <InputLabel id="language-label">Language</InputLabel>
-                                    <Select labelId="language-label" id="language" value={language} onChange={handleLanguageChange} autoWidth label="language" sx={{backgroundColor:'white'}}>
+                                    <Select labelId="language-label" id="language" value={language} onChange={handleLanguageChange} autoWidth label="language" sx={{ backgroundColor: 'white' }}>
                                         <MenuItem value={'english'}>English</MenuItem>
                                         <MenuItem value={'spanish'}>Spanish</MenuItem>
                                         <MenuItem value={'catalan'}>Catalan</MenuItem>
@@ -158,13 +169,13 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
                             </Grid>
                         </Grid>
                         <Grid container spacing={2} sx={{}}>
-                            <Grid item xs={6} sx={{marginLeft: 'auto'}} >
-                                <TextField onChange={handleNameChange} disabled={waitingResponse} value={nameInput} size='small' sx={{marginLeft:'0.5rem', width:'80%', marginTop:'0.5rem'}} fullWidth id="quizNameInput" label="Quiz Name" variant="standard" inputProps={{ maxLength: 120 }}/>
+                            <Grid item xs={6} sx={{ marginLeft: 'auto' }} >
+                                <TextField onChange={handleNameChange} disabled={waitingResponse} value={nameInput} size='small' sx={{ marginLeft: '0.5rem', width: '80%', marginTop: '0.5rem' }} fullWidth id="quizNameInput" label="Quiz Name" variant="standard" inputProps={{ maxLength: 120 }} />
                             </Grid>
                             <Grid item xs={6}>
-                                <FormControl sx={{ m: 1, minWidth: 80}} size="small">
+                                <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
                                     <InputLabel id="privacy-label">Privacy</InputLabel>
-                                    <Select labelId="privacy-label" id="privacy" value={privacyInput} onChange={handlePrivacyChange} autoWidth label="privacy" sx={{backgroundColor:'white'}}>
+                                    <Select labelId="privacy-label" id="privacy" value={privacyInput} onChange={handlePrivacyChange} autoWidth label="privacy" sx={{ backgroundColor: 'white' }}>
                                         <MenuItem value={'private'}>Private</MenuItem>
                                         <MenuItem value={'public'}>Public</MenuItem>
                                     </Select>
@@ -172,11 +183,11 @@ function FormQuizGenerator({onSubmit, onResponse, onErrorResponse}){
                             </Grid>
                         </Grid>
                     </div>
-                    
+
 
                 </div>
             </Collapse >
-            
+
         </form>
     );
 }

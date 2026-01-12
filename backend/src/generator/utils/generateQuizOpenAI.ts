@@ -7,7 +7,8 @@ export async function generateQuizChoicesOpenAI(prompt: any[]): Promise<any[]> {
   try {
     const result = await client.chat.completions.create({
       messages: prompt as any,
-      model: "gpt-5-mini",
+      model: "gpt-5-nano",
+      response_format: { type: "json_object" },
     });
 
     if (result.choices && result.choices.length > 0) {

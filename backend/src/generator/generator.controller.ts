@@ -4,12 +4,11 @@ import { GeneratorService } from './generator.service';
 
 @Controller('generator')
 export class GeneratorController {
-    constructor(private readonly generatorService: GeneratorService) {}
-    
+    constructor(private readonly generatorService: GeneratorService) { }
+
 
     @Post('generate-quiz')
     async create(@Body() createRequestDto: GeneratorRequestDto) {
-        console.log("ENTRA AL POST");
         const result = await this.generatorService.generateQuiz(createRequestDto);
         return result;
     }

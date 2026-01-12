@@ -16,7 +16,7 @@ import { NavLink } from 'react-router-dom';
 
 const settings = ['Profile', 'Login'];
 
-function ResponsiveAppBar({pages}) {
+function ResponsiveAppBar({ pages }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -36,10 +36,10 @@ function ResponsiveAppBar({pages}) {
   };
 
   return (
-    <AppBar position="sticky" sx={{backgroundColor: '#051923'}} >
+    <AppBar position="sticky" sx={{ backgroundColor: '#051923' }} >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit', display:'flex' }}>
+          <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
             <QuizIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2, color: '#7fffd4' }} />
             <Typography
               variant="h6"
@@ -57,7 +57,7 @@ function ResponsiveAppBar({pages}) {
               QuizGenerator
             </Typography>
           </NavLink>
-            
+
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
