@@ -16,11 +16,12 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../context/AuthContext';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { GoogleLogin } from '@react-oauth/google';
 
 function ResponsiveAppBar({ pages }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { user, logout } = useAuth();
+  const { user, logout, login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -87,10 +88,11 @@ function ResponsiveAppBar({ pages }) {
               sx={{
                 display: { xs: 'block', md: 'none' },
                 '& .MuiPaper-root': {
-                  backgroundColor: '#051923',
-                  color: '#7fffd4',
-                  border: '1px solid #7fffd4',
-                  borderRadius: 0,
+                  backgroundColor: 'white',
+                  color: '#051923',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '15px',
+                  boxShadow: '0px 4px 20px rgba(0,0,0,0.1)',
                 },
                 '& .MuiList-root': {
                   padding: 0,
@@ -104,9 +106,9 @@ function ResponsiveAppBar({ pages }) {
                     key={page.name}
                     onClick={handleCloseNavMenu}
                     sx={{
-                      backgroundColor: isActive ? 'rgba(127, 255, 212, 0.1)' : 'transparent',
+                      backgroundColor: isActive ? 'rgb(235, 235, 235)' : 'white',
                       '&:hover': {
-                        backgroundColor: 'rgba(127, 255, 212, 0.2)'
+                        backgroundColor: !isActive ? 'rgb(240, 240, 240)' : 'rgb(235, 235, 235)'
                       },
                       padding: '12px 20px',
                     }}
@@ -192,10 +194,11 @@ function ResponsiveAppBar({ pages }) {
               sx={{
                 mt: '45px',
                 '& .MuiPaper-root': {
-                  backgroundColor: '#051923',
-                  color: '#7fffd4',
-                  border: '1px solid #7fffd4',
-                  borderRadius: 0,
+                  backgroundColor: 'white',
+                  color: '#051923',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '15px',
+                  boxShadow: '0px 4px 20px rgba(0,0,0,0.1)',
                 },
                 '& .MuiList-root': {
                   padding: 0,
@@ -220,9 +223,23 @@ function ResponsiveAppBar({ pages }) {
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
               ) : (
-                <MenuItem onClick={() => { handleCloseUserMenu(); navigate('/login'); }} sx={{ '&:hover': { backgroundColor: 'rgba(127, 255, 212, 0.1)' }, padding: '12px 20px' }}>
-                  <Typography textAlign="center">Login</Typography>
-                </MenuItem>
+                <Box sx={{ padding: '10px' }}>
+                  <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      handleCloseUserMenu();
+                      login(credentialResponse);
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                    type="standard"
+                    theme="outline"
+                    shape="pill"
+                    size="medium"
+                    text="signin_with"
+                    width="100%"
+                  />
+                </Box>
               )}
             </Menu>
           </Box>

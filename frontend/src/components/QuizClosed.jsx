@@ -1,11 +1,11 @@
 import React from "react";
-import { Tooltip, Slide, Box, CircularProgress, Typography, Menu, MenuItem, IconButton, ButtonBase } from '@mui/material';
+import { Tooltip, Grow, Box, CircularProgress, Typography, Menu, MenuItem, IconButton, ButtonBase } from '@mui/material';
 import QuizIcon from '@mui/icons-material/Quiz';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from "react";
 
-function QuizClosed({ quiz, onQuizClick, onUnsolve, onMakePublic }) {
+function QuizClosed({ quiz, onQuizClick, onUnsolve, onMakePublic, index }) {
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -32,7 +32,7 @@ function QuizClosed({ quiz, onQuizClick, onUnsolve, onMakePublic }) {
     }
 
     return (
-        <Slide in={true}>
+        <Grow in={true} timeout={(index * 50) + 200}>
             <Tooltip title={!quiz.loading && quiz.name}>
                 <Box
                     mx='0.2rem'
@@ -41,7 +41,8 @@ function QuizClosed({ quiz, onQuizClick, onUnsolve, onMakePublic }) {
                     gap='0.2rem'
                     py='0.5rem'
                     pl='0.6rem'
-                    sx={{ boxShadow: '0px 2px 5px gray', borderRadius: '1.1rem', backgroundColor: quiz.solved ? '#9aaab1' : '#051923', color: 'white', flex: '1 1 auto', marginRight: '2%', marginTop: '2%', maxWidth: quiz.loading ? '5rem' : '12rem', maxHeight: '1.5rem', overflow: 'hidden', minWidth: '3rem' }}
+                    pr={(quiz.solved || quiz.privacy === 'private') ? '0rem' : '1.2rem'}
+                    sx={{ boxShadow: '0px 2px 5px gray', borderRadius: '1.1rem', backgroundColor: quiz.solved ? '#9aaab1' : '#051923', color: 'white', flex: '0 1 auto', marginRight: '2%', marginTop: '2%', maxWidth: quiz.loading ? '5rem' : '12rem', maxHeight: '1.5rem', overflow: 'hidden', minWidth: '3rem' }}
                 >
                     {quiz.loading ?
                         <div style={{ paddingRight: '0.5rem', width: '2rem' }}>
@@ -60,19 +61,16 @@ function QuizClosed({ quiz, onQuizClick, onUnsolve, onMakePublic }) {
                             </ButtonBase>
 
                             <div style={{ display: 'flex', justifyContent: 'flex-end', marginLeft: 'auto', alignItems: 'left', overflow: 'hidden' }}>
-                                <div style={{ display: 'flex', justifyContent: 'flex-end', marginLeft: 'auto', alignItems: 'left', overflow: 'hidden' }}>
-                                    <IconButton
-                                        aria-controls="simple-menu"
-                                        aria-haspopup="true"
-                                        onClick={handleClickMenu}
-                                        sx={{
-                                            marginLeft: 'auto',
-                                            visibility: (quiz.solved || quiz.privacy === 'private') ? 'visible' : 'hidden'
-                                        }}
-                                    >
-                                        <MoreVertIcon sx={{ color: 'white', marginLeft: 'auto' }} />
-                                    </IconButton>
-                                    {(quiz.solved || quiz.privacy === 'private') && (
+                                {(quiz.solved || quiz.privacy === 'private') && (
+                                    <>
+                                        <IconButton
+                                            aria-controls="simple-menu"
+                                            aria-haspopup="true"
+                                            onClick={handleClickMenu}
+                                            sx={{ marginLeft: 'auto' }}
+                                        >
+                                            <MoreVertIcon sx={{ color: 'white', marginLeft: 'auto' }} />
+                                        </IconButton>
                                         <Menu
                                             id="simple-menu"
                                             anchorEl={anchorEl}
@@ -83,15 +81,15 @@ function QuizClosed({ quiz, onQuizClick, onUnsolve, onMakePublic }) {
                                             {quiz.privacy === 'private' && <MenuItem onClick={() => { setAnchorEl(null); onMakePublic(quiz._id); }}>Make Public</MenuItem>}
                                             {quiz.solved && <MenuItem onClick={() => handleUnsolve()}>UnSolve</MenuItem>}
                                         </Menu>
-                                    )}
-                                </div>
+                                    </>
+                                )}
                             </div>
                         </div>
                     }
                 </Box>
             </Tooltip>
 
-        </Slide>
+        </Grow>
 
     );
 }

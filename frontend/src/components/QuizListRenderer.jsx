@@ -7,7 +7,7 @@ function QuizListRenderer({ quizList, onQuizClick, onUnsolve, onMakePublic }) {
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start', alignContent: 'flex-start', height: '100%', width: '90%', marginLeft: 'auto', marginRight: 'auto' }}>
             {quizList.map((quiz, index) => (
 
-                <QuizClosed quiz={quiz} onQuizClick={onQuizClick} key={quiz.loading ? quiz.tempId : quiz._id} onUnsolve={onUnsolve} onMakePublic={onMakePublic} />
+                <QuizClosed quiz={quiz} onQuizClick={onQuizClick} key={quiz.loading ? quiz.tempId : quiz._id} onUnsolve={onUnsolve} onMakePublic={onMakePublic} index={index} />
             ))}
         </div>
     );

@@ -5,6 +5,7 @@ import FormQuizGenerator from '../components/FormQuizGen';
 import QuizListRenderer from '../components/QuizListRenderer';
 import ModalQuizOpened from '../components/ModalQuizOpened';
 import ErrorPopup from '../components/ErrorPopup';
+import LimitAnnouncement from '../components/LimitAnnouncement';
 import { useQuiz } from '../context/QuizContext';
 
 import { useAuth } from '../context/AuthContext';
@@ -12,7 +13,7 @@ import { CircularProgress, Button, Box } from '@mui/material';
 
 function Home() {
     const { quizzes, handleAnswerChange, handleQuizSolved, handleUnsolveQuiz, fetchUserQuizzes, makeQuizPublic, error, setError } = useQuiz();
-    const { user } = useAuth();
+    const { user, login } = useAuth();
 
     const [selectedQuiz, setSelectedQuiz] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -72,11 +73,12 @@ function Home() {
                 <Typography textAlign="center" variant="body1" sx={{ fontSize: '0.8rem', color: '#999999' }}>
                     Quizzes are generated using gpt-4
                 </Typography>
+                <LimitAnnouncement user={user} login={login} />
                 <FormQuizGenerator />
 
             </div>
             <hr style={{ backgroundColor: 'gray', border: 'none', height: '1px', width: '60%', margin: '0 10px', marginLeft: 'auto', marginRight: 'auto' }} />
-            <div style={{ paddingLeft: '1rem', paddingRight: '1rem', marginTop: '2rem', paddingBottom: '3rem' }}>
+            <div style={{ paddingLeft: '1rem', paddingRight: '1rem', marginTop: '2rem', paddingBottom: '12rem' }}>
                 {quizzes.length > 0 &&
                     <Typography textAlign="center" variant="h2" sx={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#2b2d42', marginTop: '1rem', marginBottom: '1rem' }}>
                         Generated Quizzes

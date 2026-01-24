@@ -147,7 +147,7 @@ function FormQuizGenerator() {
                     </IconButton>
                 </Grid>
                 <Grid item xs={12} sm={5} sx={{ order: { xs: 1, sm: 2 }, display: 'flex', justifyContent: { xs: 'center', sm: 'flex-end' }, maxWidth: { xs: '20rem', sm: '100%' }, margin: { xs: 'auto', sm: '0' } }}>
-                    <Button disabled={isGenerating} type="submit" variant="contained" endIcon={<AutoFixHighIcon />} sx={{ backgroundColor: '#00cf89', minWidth: '60%', '&:hover': { backgroundColor: '#00a16b', boxShadow: 'none' }, width: { xs: '100%', sm: 'auto' } }}>
+                    <Button disabled={isGenerating} type="submit" variant="contained" sx={{ backgroundColor: '#00cf89', minWidth: '60%', '&:hover': { backgroundColor: '#00a16b', boxShadow: 'none' }, width: { xs: '100%', sm: 'auto' } }}>
                         GENERATE
                     </Button>
                 </Grid>

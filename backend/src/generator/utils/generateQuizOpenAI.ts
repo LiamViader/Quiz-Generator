@@ -17,10 +17,7 @@ export async function generateQuizOpenAI(input: any[]): Promise<any[]> {
   try {
 
     const response = await client.responses.parse({
-      model: "gpt-5-nano",
-      reasoning: {
-        effort: "low"
-      },
+      model: "gpt-4.1-nano",
       input: input,
       text: {
         format: zodTextFormat(QuizzModel, "quizz"),
