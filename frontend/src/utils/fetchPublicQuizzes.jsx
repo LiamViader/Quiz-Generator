@@ -1,12 +1,10 @@
-import axios from 'axios';
+import client from '../api/client';
 
-const backendUrl = import.meta.env.VITE_API_URL;
 const endpoint = "/quizzes/public";
-const publicQuizzesUrl=backendUrl+endpoint;
 
 async function fetchPublicQuizzes(page, pageSize) {
     try {
-        const response = await axios.get(publicQuizzesUrl, {
+        const response = await client.get(endpoint, {
             params: {
                 page: page,
                 pageSize: pageSize

@@ -12,13 +12,17 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import QuizIcon from '@mui/icons-material/Quiz';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
-const settings = ['Profile', 'Login'];
+import { useAuth } from '../context/AuthContext';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function ResponsiveAppBar({ pages }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -35,30 +39,26 @@ function ResponsiveAppBar({ pages }) {
     setAnchorElUser(null);
   };
 
-  return (
-    <AppBar position="sticky" sx={{ backgroundColor: '#051923' }} >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
-            <QuizIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2, color: '#7fffd4' }} />
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{
-                mr: 4,
-                display: { xs: 'none', md: 'flex' },
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: '#7fffd4',
-                textDecoration: 'none',
-              }}
-            >
-              QuizGenerator
-            </Typography>
-          </NavLink>
+  const handleLogout = () => {
+    logout();
+    handleCloseUserMenu();
+    navigate('/');
+  }
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+  return (
+    <AppBar position="sticky" sx={{ backgroundColor: '#051923', borderBottom: '1px solid #7fffd4', boxShadow: '0 4px 6px rgba(0,0,0,0.3)' }} >
+      <Container maxWidth={false}>
+        <Toolbar disableGutters>
+
+          {/* --- LEFT SECTION: DESKTOP LOGO --- */}
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+            <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+              <QuizIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: '#7fffd4', fontSize: '2rem' }} />
+            </NavLink>
+          </Box>
+
+          {/* --- MOBILE LEFT: MENU (Replacing Logo) --- */}
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -66,8 +66,9 @@ function ResponsiveAppBar({ pages }) {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
+              sx={{ color: '#7fffd4', pl: 0 }}
             >
-              <MenuIcon />
+              <MenuIcon sx={{ fontSize: '2rem' }} />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -85,53 +86,121 @@ function ResponsiveAppBar({ pages }) {
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: 'block', md: 'none' },
+                '& .MuiPaper-root': {
+                  backgroundColor: '#051923',
+                  color: '#7fffd4',
+                  border: '1px solid #7fffd4',
+                  borderRadius: 0,
+                },
+                '& .MuiList-root': {
+                  padding: 0,
+                }
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <NavLink to={page.rout} style={{ textDecoration: 'none', color: 'inherit' }}>{page.name}</NavLink> {/* Utiliza Link para enlazar a las otras páginas */}
-                </MenuItem>
-              ))}
+              {pages.map((page) => {
+                const isActive = location.pathname === page.rout;
+                return (
+                  <MenuItem
+                    key={page.name}
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      backgroundColor: isActive ? 'rgba(127, 255, 212, 0.1)' : 'transparent',
+                      '&:hover': {
+                        backgroundColor: 'rgba(127, 255, 212, 0.2)'
+                      },
+                      padding: '12px 20px',
+                    }}
+                  >
+                    <NavLink to={page.rout} style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                      <Typography textAlign="center" sx={{ fontFamily: 'monospace', fontWeight: isActive ? 700 : 500 }}>{page.name}</Typography>
+                    </NavLink>
+                  </MenuItem>
+                )
+              })}
             </Menu>
           </Box>
-          <QuizIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: '#7fffd4' }} />
-          <Typography
-            variant="h5"
-            noWrap
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: '#7fffd4',
-              textDecoration: 'none',
-            }}
-          >
-            QuizGenerator
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.name}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block', fontSize: '1rem' }}
-                component={NavLink} to={page.rout} // Utiliza Link como el componente del botón para enlazar a las otras páginas
-              >
-                {page.name}
-              </Button>
-            ))}
+
+
+          {/* --- MIDDLE SECTION: NAV LINKS (Desktop Only) --- */}
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', gap: 2 }}>
+            {pages.map((page) => {
+              const isActive = location.pathname === page.rout;
+              return (
+                <Button
+                  key={page.name}
+                  onClick={handleCloseNavMenu}
+                  component={NavLink}
+                  to={page.rout}
+                  sx={{
+                    my: 2,
+                    color: isActive ? '#7fffd4' : 'white',
+                    display: 'block',
+                    fontSize: '1rem',
+                    fontFamily: 'monospace',
+                    fontWeight: isActive ? 700 : 400,
+                    '&:hover': {
+                      backgroundColor: 'transparent',
+                      color: '#7fffd4',
+                    }
+                  }}
+                >
+                  <Box component="span" sx={{
+                    position: 'relative',
+                    display: 'inline-block',
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      width: isActive ? '100%' : '0',
+                      height: '2px',
+                      bottom: '-2px',
+                      left: '0',
+                      backgroundColor: '#7fffd4',
+                      transition: 'width 0.3s ease-in-out',
+                    },
+                    '&:hover::after': {
+                      width: '100%',
+                    }
+                  }}>
+                    {page.name}
+                  </Box>
+                </Button>
+              )
+            })}
           </Box>
 
+          {/* --- RIGHT SECTION: USER --- */}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+            {user ? (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Typography sx={{ color: '#7fffd4', fontFamily: 'monospace', display: { xs: 'none', sm: 'block' } }}>
+                  Remaining: {Math.max(0, (user.personalLimit || 10) - (user.dailyPersonalUsage || 0))}
+                </Typography>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid transparent', '&:hover': { border: '2px solid #7fffd4', transition: 'border 0.2s' } }}>
+                    <Avatar alt={user.name} src={user.picture} />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            ) : (
+              <Tooltip title="Login">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <AccountCircleIcon sx={{ color: '#7fffd4', fontSize: 40, transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.1)' } }} />
+                </IconButton>
+              </Tooltip>
+            )}
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{
+                mt: '45px',
+                '& .MuiPaper-root': {
+                  backgroundColor: '#051923',
+                  color: '#7fffd4',
+                  border: '1px solid #7fffd4',
+                  borderRadius: 0,
+                },
+                '& .MuiList-root': {
+                  padding: 0,
+                }
+              }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -146,11 +215,15 @@ function ResponsiveAppBar({ pages }) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {user ? (
+                <MenuItem onClick={handleLogout} sx={{ '&:hover': { backgroundColor: 'rgba(127, 255, 212, 0.1)' }, padding: '12px 20px' }}>
+                  <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
-              ))}
+              ) : (
+                <MenuItem onClick={() => { handleCloseUserMenu(); navigate('/login'); }} sx={{ '&:hover': { backgroundColor: 'rgba(127, 255, 212, 0.1)' }, padding: '12px 20px' }}>
+                  <Typography textAlign="center">Login</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>

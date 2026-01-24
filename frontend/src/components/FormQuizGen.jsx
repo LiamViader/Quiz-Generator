@@ -5,10 +5,19 @@ import ChangeIcon from '@mui/icons-material/ChangeCircle';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import axios from "axios";
+import client from "../api/client";
 
 
-function FormQuizGenerator({ onSubmit, onResponse, onErrorResponse }) {
+import { useQuiz } from '../context/QuizContext';
+import { useAuth } from '../context/AuthContext';
+
+function FormQuizGenerator() {
+    const { handleFormSubmitted, handleResponse, handleErrorResponse, quizzes } = useQuiz();
+    const { fetchUserProfile } = useAuth();
+
+    // Check if any quiz is currently loading
+    const isGenerating = quizzes.some(q => q.loading);
+
     const backendUrl = import.meta.env.VITE_API_URL;
     const endpoint = "/generator/generate-quiz";
     const generateQuizUrl = backendUrl + endpoint;
@@ -31,21 +40,24 @@ function FormQuizGenerator({ onSubmit, onResponse, onErrorResponse }) {
     const [difficulty, setDifficulty] = useState("medium");
     const [language, setLanguage] = useState("english");
     const [showingOptions, setShowingOptions] = useState(false);
-    const [waitingResponse, setWaitingResponse] = useState(false);
+    // Remove local waitingResponse state, use derived state from context
+    // const [waitingResponse, setWaitingResponse] = useState(false); 
     const [nameInput, setNameInput] = useState("");
     const [privacyInput, setPrivacyInput] = useState("private");
+    const [rotationAngle, setRotationAngle] = useState(0);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!waitingResponse) {
+        if (!isGenerating) {
             let name;
             if (nameInput == "") name = topicInput;
             else name = nameInput;
             if (showingOptions) toggleOptions();
-            setWaitingResponse(true);
-            onSubmit();
+
+            handleFormSubmitted();
+
             try {
-                const response = await axios.post(`${generateQuizUrl}`, {
+                const response = await client.post(endpoint, {
                     topic: topicInput,
                     difficulty: difficulty,
                     language: language,
@@ -53,16 +65,20 @@ function FormQuizGenerator({ onSubmit, onResponse, onErrorResponse }) {
                     numberQuestions: parseInt(numberQuestions),
                     privacy: privacyInput
                 });
-                onResponse(response.data);
+                onResponseContext(response.data);
+                if (fetchUserProfile) await fetchUserProfile(); // Refresh counter
                 setNameInput("");
-                setWaitingResponse(false);
 
             } catch (error) {
                 console.log(error);
-                onErrorResponse(error);
-                setWaitingResponse(false);
+                handleErrorResponse(error);
             }
         }
+    }
+
+    // Wrapper to ensure handleResponse is called correctly
+    const onResponseContext = (data) => {
+        handleResponse(data);
     }
 
     const handleSliderChange = (e) => {
@@ -90,6 +106,7 @@ function FormQuizGenerator({ onSubmit, onResponse, onErrorResponse }) {
     }
 
     const randomTopic = (event) => {
+        setRotationAngle(prev => prev + 360);
         setExampleTopicIndex(prevIndex => {
             let newIndex = -1;
             if (prevIndex + 1 < example_topics.length) newIndex = prevIndex + 1;
@@ -104,15 +121,15 @@ function FormQuizGenerator({ onSubmit, onResponse, onErrorResponse }) {
     }
 
     return (
-        <form onSubmit={handleSubmit} style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '50rem', padding: '2rem' }} >
+        <form onSubmit={handleSubmit} style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '50rem', padding: '2rem 1rem' }} >
             <Grid container spacing={2}>
-                <Grid item xs={11}>
-                    <TextField onChange={handleTopicChange} disabled={waitingResponse} value={topicInput} sx={{ marginRight: '1rem', backgroundColor: 'white', width: '100%' }} fullWidth id="quizGenInput" label="Your Topic" variant="outlined" required placeholder="e.g Cloud computing and distributed systems" InputLabelProps={{ shrink: true }} inputProps={{ maxLength: 120 }} />
+                <Grid item xs={10}>
+                    <TextField onChange={handleTopicChange} disabled={isGenerating} value={topicInput} sx={{ marginRight: '1rem', backgroundColor: 'white', width: '100%' }} fullWidth id="quizGenInput" label="Your Topic" variant="outlined" required placeholder="e.g Cloud computing and distributed systems" InputLabelProps={{ shrink: true }} inputProps={{ maxLength: 120 }} />
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={2}>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <IconButton onClick={randomTopic} aria-label="reroll" sx={{ color: '#051923', marginLeft: 'auto', marginRight: 'auto' }}>
-                            <ChangeIcon />
+                            <ChangeIcon sx={{ fontSize: '2rem', transition: 'transform 0.5s ease', transform: `rotate(${rotationAngle}deg)` }} />
                         </IconButton>
                         <Typography textAlign="center" variant="h2" sx={{ fontSize: '10px', color: '#051923' }}>
                             example prompt
@@ -120,8 +137,8 @@ function FormQuizGenerator({ onSubmit, onResponse, onErrorResponse }) {
                     </div>
                 </Grid>
             </Grid>
-            <Grid container alignItems="center" style={{ marginTop: '2rem' }}>
-                <Grid item xs={7} sx={{ display: 'flex', flexDirection: 'row' }}>
+            <Grid container alignItems="center" spacing={2} style={{ marginTop: '1rem' }}>
+                <Grid item xs={12} sm={7} sx={{ order: { xs: 2, sm: 1 }, display: 'flex', flexDirection: 'row', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
                     <Typography onClick={toggleOptions} textAlign="left" variant="h1" sx={{ fontSize: '1rem', fontWeight: 'bold', color: '#051923', marginTop: 'auto', marginBottom: 'auto' }}>
                         More Options
                     </Typography>
@@ -129,8 +146,8 @@ function FormQuizGenerator({ onSubmit, onResponse, onErrorResponse }) {
                         {showingOptions ? <ArrowDropUpIcon /> : <ArrowDropDownCircleIcon />}
                     </IconButton>
                 </Grid>
-                <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button disabled={waitingResponse} type="submit" variant="contained" endIcon={<AutoFixHighIcon />} sx={{ backgroundColor: '#00cf89', minWidth: '60%', '&:hover': { backgroundColor: '#00a16b', boxShadow: 'none' }, }}>
+                <Grid item xs={12} sm={5} sx={{ order: { xs: 1, sm: 2 }, display: 'flex', justifyContent: { xs: 'center', sm: 'flex-end' }, maxWidth: { xs: '20rem', sm: '100%' }, margin: { xs: 'auto', sm: '0' } }}>
+                    <Button disabled={isGenerating} type="submit" variant="contained" endIcon={<AutoFixHighIcon />} sx={{ backgroundColor: '#00cf89', minWidth: '60%', '&:hover': { backgroundColor: '#00a16b', boxShadow: 'none' }, width: { xs: '100%', sm: 'auto' } }}>
                         GENERATE
                     </Button>
                 </Grid>
@@ -170,7 +187,7 @@ function FormQuizGenerator({ onSubmit, onResponse, onErrorResponse }) {
                         </Grid>
                         <Grid container spacing={2} sx={{}}>
                             <Grid item xs={6} sx={{ marginLeft: 'auto' }} >
-                                <TextField onChange={handleNameChange} disabled={waitingResponse} value={nameInput} size='small' sx={{ marginLeft: '0.5rem', width: '80%', marginTop: '0.5rem' }} fullWidth id="quizNameInput" label="Quiz Name" variant="standard" inputProps={{ maxLength: 120 }} />
+                                <TextField onChange={handleNameChange} disabled={isGenerating} value={nameInput} size='small' sx={{ marginLeft: '0.5rem', width: '80%', marginTop: '0.5rem' }} fullWidth id="quizNameInput" label="Quiz Name" variant="standard" inputProps={{ maxLength: 120 }} />
                             </Grid>
                             <Grid item xs={6}>
                                 <FormControl sx={{ m: 1, minWidth: 80 }} size="small">

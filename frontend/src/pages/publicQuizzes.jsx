@@ -120,8 +120,8 @@ function PublicQuizzes() {
 
     return (
         <>
-            <ResponsiveAppBar pages={[{ name: 'Home', rout: '/' },]} />
-            <div style={{ paddingLeft: '1rem', paddingRight: '1rem', minWidth: '20rem', marginTop: '2rem', marginBottom: '1.5rem' }}>
+            <ResponsiveAppBar pages={[{ name: 'Home', rout: '/' }, { name: 'Public Quizzes', rout: '/publicQuizzes' }]} />
+            <div style={{ paddingLeft: '1rem', paddingRight: '1rem', marginTop: '3rem', marginBottom: '1.5rem' }}>
                 <Typography textAlign="center" variant="h1" sx={{ fontSize: '2.7rem', fontWeight: 'bold', color: '#2b2d42' }}>
                     Public Quizzes
                 </Typography>
@@ -130,8 +130,8 @@ function PublicQuizzes() {
                 </Typography>
 
             </div>
-            <hr style={{ minWidth: '20rem', backgroundColor: 'gray', border: 'none', height: '1px', width: '30%', margin: '0 10px', marginLeft: 'auto', marginRight: 'auto' }} />
-            <div style={{ paddingLeft: '1rem', paddingRight: '1rem', minWidth: '20rem', marginTop: '2rem', }}>
+            <hr style={{ backgroundColor: 'gray', border: 'none', height: '1px', width: '30%', margin: '0 10px', marginLeft: 'auto', marginRight: 'auto' }} />
+            <div style={{ paddingLeft: '1rem', paddingRight: '1rem', marginTop: '2rem', }}>
 
                 <QuizListRenderer quizList={quizzes} onQuizClick={handleQuizClick} onUnsolve={handleUnsolveQuiz} />
                 {fetchingData && <div style={{ marginLeft: 'auto', marginRight: 'auto', width: '10rem', display: 'flex', marginTop: '2rem' }}><CircularProgress size='3.5rem' sx={{ color: 'gray', marginLeft: 'auto', marginRight: 'auto' }} /></div>}

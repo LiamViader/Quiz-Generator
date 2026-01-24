@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
-import { GeneratorRequestDto } from './dto/generator-request.dto';
+import { Controller, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { GeneratorService } from './generator.service';
+import { GeneratorRequestDto } from './dto/generator-request.dto';
+import { OptionalJwtAuthGuard } from '../auth/optional-jwt-auth.guard';
 
 @Controller('generator')
 export class GeneratorController {
@@ -8,8 +9,9 @@ export class GeneratorController {
 
 
     @Post('generate-quiz')
-    async create(@Body() createRequestDto: GeneratorRequestDto) {
-        const result = await this.generatorService.generateQuiz(createRequestDto);
+    @UseGuards(OptionalJwtAuthGuard)
+    async create(@Body() createRequestDto: GeneratorRequestDto, @Req() req) {
+        const result = await this.generatorService.generateQuiz(createRequestDto, req.user);
         return result;
     }
 }

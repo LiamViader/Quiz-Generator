@@ -1,37 +1,48 @@
-import { Schema, Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export interface Question {
+@Schema()
+export class Question {
+    @Prop({ required: true })
     question: string;
+
+    @Prop({ type: [String], required: true })
     answers: string[];
+
+    @Prop({ default: null })
     userAnswer: number | null;
+
+    @Prop({ required: true })
     correctAnswer: number;
 }
 
-export interface Quiz extends Document {
+export const QuestionSchema = SchemaFactory.createForClass(Question);
+
+@Schema({ timestamps: true, collection: 'quizzes' })
+export class Quiz extends Document {
+    @Prop({ default: false })
     solved: boolean;
+
+    @Prop({ required: true, enum: ['public', 'private'] })
     privacy: string;
+
+    @Prop({ default: "untitled", index: true })
     name: string;
+
+    @Prop({ required: false })
     topic: string;
+
+    @Prop({ required: true, enum: ['english', 'spanish', 'catalan', 'french', 'italian'], index: true })
     language: string;
+
+    @Prop({ required: true, enum: ['very easy', 'easy', 'medium', 'hard', 'almost impossible'], index: true })
     difficulty: string;
+
+    @Prop({ type: [QuestionSchema], required: true })
     questions: Question[];
+
+    @Prop({ required: false })
+    creatorId: string;
 }
 
-const QuestionSchema = new Schema({
-    question: { type: String, required: true },
-    answers: [{ type: String, required: true }],
-    userAnswer: { type: Number, default: null },
-    correctAnswer: { type: Number, required: true },
-});
-
-export const QuizSchema = new Schema({
-    solved: { type: Boolean, default: false },
-    privacy: { type: String,enum: ['public', 'private'], required: true },
-    name: { type: String, default: "untitled", index: true },
-    topic: { type: String, required: false },
-    language: {type: String, enum:['english', 'spanish', 'catalan', 'french', 'italian'], required: true, index: true},
-    difficulty: {type: String, enum: ['very easy','easy', 'medium', 'hard', 'almost impossible'], required: true, index: true},
-    questions: { type: [QuestionSchema],  required: true },
-}, { timestamps: true,
-    collection: 'quizzes',
-});
+export const QuizSchema = SchemaFactory.createForClass(Quiz);
