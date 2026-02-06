@@ -43,7 +43,7 @@ function Footer() {
             </Link>
           </Stack>
           <Typography variant="body2" color="#7fffd4" align="center">
-            © {new Date().getFullYear()} Quiz Generator. All rights reserved.
+            © {new Date().getFullYear()} Quiz Generator
           </Typography>
         </Stack>
       </Container>
