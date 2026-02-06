@@ -9,8 +9,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "copy staticwebapp.config.json dist\\",
-    "build-all": "npm-run-all build postbuild",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
