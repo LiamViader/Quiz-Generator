@@ -3,14 +3,14 @@ import { Modal, Box, IconButton, Typography, Button, Fade } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import QuizIcon from '@mui/icons-material/Quiz';
 import QuizOpened from './QuizOpened';
-function ModalQuizOpened({onQuizSolved, onCloseModal, quiz, onAnswerChange}) {
+function ModalQuizOpened({ onQuizSolved, onCloseModal, quiz, onAnswerChange }) {
   const modalContentRef = useRef(null);
 
-  const handleClose = () =>{
+  const handleClose = () => {
     onCloseModal();
-  } 
+  }
 
-  const handleSolved = (quizId) =>{
+  const handleSolved = (quizId) => {
     modalContentRef.current.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -27,31 +27,31 @@ function ModalQuizOpened({onQuizSolved, onCloseModal, quiz, onAnswerChange}) {
     maxWidth: '40rem',
     bgcolor: '#051923',
     boxShadow: 24,
-    borderRadius: 2, 
+    borderRadius: 2,
     maxHeight: '83vh',
     overflowY: 'auto',
     overflowWrap: 'break-word',
-    wordBreak: 'break-all',
+    wordBreak: 'break-word',
   };
 
 
   return (
     <div>
       <Modal open={true} onClose={handleClose}>
-        <Box sx={style1 } ref={modalContentRef}>
-          <div style={{display:'flex', alignItems:"center", padding:'1.2rem 2rem', overflowWrap: 'break-word', wordBreak: 'break-all'}}>
-            <QuizIcon sx={{ fontSize:'1.8rem', mr: 2, color: '#7fffd4' }} />
+        <Box sx={style1} ref={modalContentRef}>
+          <div style={{ display: 'flex', alignItems: "center", padding: '1.2rem 2rem', overflowWrap: 'break-word', wordBreak: 'break-word' }}>
+            <QuizIcon sx={{ fontSize: '1.8rem', mr: 2, color: '#7fffd4' }} />
             <Typography
               variant="h6"
               sx={{
                 mr: 4,
-                ml:1,
+                ml: 1,
                 fontFamily: 'monospace',
                 fontWeight: 700,
                 letterSpacing: '.3rem',
                 color: '#7fffd4',
                 textDecoration: 'none',
-                fontSize:'1.5rem'
+                fontSize: { xs: '1.1rem', md: '1.5rem' }
               }}
             >
               {quiz.name}
@@ -60,21 +60,21 @@ function ModalQuizOpened({onQuizSolved, onCloseModal, quiz, onAnswerChange}) {
 
 
           <IconButton
-              aria-label="close"
-              onClick={handleClose}
-              sx={{
-                position: 'absolute',
-                right: 8,
-                top: 8,
-                color: 'white',
-              }}
-            >
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: 'white',
+            }}
+          >
             <CloseIcon />
           </IconButton>
-          <QuizOpened onSolved={handleSolved} quiz={quiz} onAnswerChange={onAnswerChange}/>
-          
+          <QuizOpened onSolved={handleSolved} quiz={quiz} onAnswerChange={onAnswerChange} />
+
         </Box>
-        
+
       </Modal>
     </div>
   );
