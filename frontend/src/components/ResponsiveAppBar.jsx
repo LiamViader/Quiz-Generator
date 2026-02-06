@@ -223,7 +223,7 @@ function ResponsiveAppBar({ pages }) {
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
               ) : (
-                <Box sx={{ padding: '0 10px' }}>
+                <MenuItem sx={{ padding: '10px' }}>
                   <GoogleLogin
                     onSuccess={(credentialResponse) => {
                       handleCloseUserMenu();
@@ -236,7 +236,7 @@ function ResponsiveAppBar({ pages }) {
                     shape="pill"
                     size="medium"
                   />
-                </Box>
+                </MenuItem>
               )}
             </Menu>
           </Box>
