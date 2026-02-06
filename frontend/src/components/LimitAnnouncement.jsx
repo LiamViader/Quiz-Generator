@@ -40,7 +40,7 @@ function LimitAnnouncement({ user, login }) {
               <Typography variant="caption" sx={{ color: '#7fffd4', fontWeight: 'bold', fontSize: '0.85rem', textAlign: 'center' }}>
                 Login to unlock <b>5</b> guaranteed generations just for you!
               </Typography>
-              <Box sx={{ marginTop: '0.2rem', transform: 'scale(0.8)' }}>
+              <Box sx={{ marginTop: '0.2rem' }}>
                 <GoogleLogin
                   onSuccess={login}
                   onError={() => {
@@ -48,7 +48,8 @@ function LimitAnnouncement({ user, login }) {
                   }}
                   theme="outline"
                   shape="pill"
-                  size="large"
+                  size="medium"
+                  width="250"
                   sx={{ backgroundColor: '#7fffd4' }}
                 />
               </Box>
