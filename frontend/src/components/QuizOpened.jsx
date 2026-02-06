@@ -70,7 +70,6 @@ function QuizOpened({ onSolved, quiz, onAnswerChange }) {
                         <Button
                             onClick={onSend}
                             variant="contained"
-                            disabled={questionsAnswered() < totalQuestions}
                             sx={{
                                 bgcolor: '#00cf89', fontWeight: 'bold', px: 4, borderRadius: 2,
                                 '&:hover': { bgcolor: '#00a16b' }, textTransform: 'none'
