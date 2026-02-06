@@ -48,8 +48,7 @@ function QuizOpened({ onSolved, quiz, onAnswerChange }) {
                         p: 3, mb: 4, borderRadius: 4, textAlign: 'center',
                         background: 'linear-gradient(135deg, #051923 0%, #0a2d3e 100%)', color: '#7fffd4'
                     }}>
-                        <Typography variant="h6" sx={{ opacity: 0.8, textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: 2 }}>Results</Typography>
-                        <Typography variant="h3" sx={{ fontWeight: 300, fontSize: '1.4rem' }}>{correctAnswers()} / {totalQuestions}</Typography>
+                        <Typography variant="h6" sx={{ opacity: 0.8, textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: 2 }}>Results:  {correctAnswers()} / {totalQuestions}</Typography>
                     </Paper>
                 )}
 
@@ -83,7 +82,7 @@ function QuizOpened({ onSolved, quiz, onAnswerChange }) {
                     </Box>
                 )}
             </Box>
-        </Box>
+        </Box >
     );
 }
 
