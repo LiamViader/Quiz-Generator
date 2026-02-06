@@ -1,6 +1,12 @@
-node_modules
-dist
-.git
+# Ignore local dependencys
+node_modules/
+npm-debug.log
+
+# Ignore local build
+dist/
+
+# Security and trash
+.git/
 .env
-test
-coverage
+test/
+coverage/
