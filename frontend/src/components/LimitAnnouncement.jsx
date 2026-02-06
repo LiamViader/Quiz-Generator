@@ -16,7 +16,7 @@ function LimitAnnouncement({ user, login }) {
           bottom: '10%',
           right: '2rem',
           padding: '0.8rem',
-          paddingTop: '1.5rem', // Added padding for close button
+          padding: '0.8rem',
           borderRadius: '1rem',
           background: '#051923',
           border: '1px solid',
