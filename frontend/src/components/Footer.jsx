@@ -42,7 +42,7 @@ function Footer() {
               Terms of Service
             </Link>
           </Stack>
-          <Typography variant="body2" color="#7fffd4" align="center" marginLeft={{ sm: '3rem' }}>
+          <Typography variant="body2" color="#7fffd4" align="center" >
             © {new Date().getFullYear()} Quiz Generator
           </Typography>
         </Stack>
