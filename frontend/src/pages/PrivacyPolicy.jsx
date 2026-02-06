@@ -71,7 +71,7 @@ function PrivacyPolicy() {
             </li>
             <li>
               <Typography variant="body1" sx={{ mb: 1 }}>
-                <strong>Google Cloud Platform:</strong> Our application and authentication systems are hosted on Google Cloud (Region: europe-west1).
+                <strong>Google Cloud Platform:</strong> Our infrastructure and authentication systems are hosted on Google Cloud Platform servers located within the European Union (EU).
               </Typography>
             </li>
             <li>
