@@ -45,10 +45,10 @@ function QuizOpened({ onSolved, quiz, onAnswerChange }) {
                 {/* Score Hero Card */}
                 {quizState.solved && (
                     <Paper elevation={0} sx={{
-                        p: 3, mb: 4, borderRadius: 4, textAlign: 'center',
+                        p: 2, mb: 4, borderRadius: 4, textAlign: 'center',
                         background: 'linear-gradient(135deg, #051923 0%, #0a2d3e 100%)', color: '#7fffd4'
                     }}>
-                        <Typography variant="h6" sx={{ opacity: 0.8, textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: 2 }}>Results:  {correctAnswers()} / {totalQuestions}</Typography>
+                        <Typography variant="h6" sx={{ opacity: 0.8, textTransform: 'uppercase', fontSize: '1.5rem', letterSpacing: 2 }}>Results:  {correctAnswers()} / {totalQuestions}</Typography>
                     </Paper>
                 )}
 
