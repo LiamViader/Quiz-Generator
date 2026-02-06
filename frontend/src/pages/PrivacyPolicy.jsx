@@ -66,7 +66,10 @@ function PrivacyPolicy() {
           <Box component="ul" sx={{ pl: 2 }}>
             <li>
               <Typography variant="body1" sx={{ mb: 1 }}>
-                <strong>OpenAI:</strong> The topics you enter are sent to OpenAI to generate quiz content. <strong>No personal identifying information</strong> (like your name or email) is ever sent to OpenAI.
+                <strong>OpenAI:</strong> The topics and prompts you enter are processed by OpenAI to generate quiz content.
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', pl: 2, borderLeft: '2px solid #ccc' }}>
+                <strong>Data Usage Notice:</strong> Content provided to the AI service may be used by OpenAI to improve and enhance their models and services. For this reason, we strictly advise users not to include any sensitive or personally identifiable information in their prompts.
               </Typography>
             </li>
             <li>

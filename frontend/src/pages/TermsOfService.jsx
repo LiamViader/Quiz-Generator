@@ -34,7 +34,7 @@ function TermsOfService() {
             2. AI Content Disclaimer (OpenAI)
           </Typography>
           <Typography variant="body1" paragraph>
-            All quizzes are generated using Artificial Intelligence (OpenAI). You acknowledge and agree that:
+            All quizzes are generated using Artificial Intelligence (OpenAI). By using this service, you acknowledge and agree that:
           </Typography>
           <Box component="ul" sx={{ pl: 2 }}>
             <li>
@@ -45,6 +45,11 @@ function TermsOfService() {
             <li>
               <Typography variant="body1" sx={{ mb: 1 }}>
                 Quiz Generator does not guarantee the accuracy of any question or answer provided by the AI.
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body1" sx={{ mb: 1, color: '#d32f2f', fontWeight: 'bold' }}>
+                Training Data: You understand that the prompts you provide are shared with OpenAI and may be used to train their AI models as part of our cost-saving API configuration.
               </Typography>
             </li>
             <li>
