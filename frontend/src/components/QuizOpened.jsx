@@ -46,7 +46,7 @@ function QuizOpened({ onSolved, quiz, onAnswerChange }) {
                 {quizState.solved && (
                     <Paper elevation={0} sx={{
                         p: 2, mb: 4, borderRadius: 4, textAlign: 'center',
-                        background: 'linear-gradient(135deg, #051923 0%, #0a2d3e 100%)', color: '#7fffd4'
+                        backgroundColor: '#fafafa', color: '#7fffd4', border: '1px solid #e0e0e0'
                     }}>
                         <Typography variant="h6" sx={{ opacity: 0.8, textTransform: 'uppercase', fontSize: '1.5rem', letterSpacing: 2 }}>Results:  {correctAnswers()} / {totalQuestions}</Typography>
                     </Paper>
