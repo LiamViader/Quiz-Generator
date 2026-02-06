@@ -11,7 +11,7 @@ function LimitAnnouncement({ user, login }) {
         sx={{
           position: 'fixed',
           bottom: '10%',
-          left: '2rem',
+          right: '2rem',
           padding: '0.8rem',
           borderRadius: '1rem',
           background: '#051923',
