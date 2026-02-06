@@ -70,9 +70,6 @@ function Home() {
                 <Typography textAlign="center" variant="h2" sx={{ fontSize: '1.1rem', marginTop: '0.3rem', color: '#2b2d42' }}>
                     Generate a quiz from a given topic or explanation
                 </Typography>
-                <Typography textAlign="center" variant="body1" sx={{ fontSize: '0.8rem', color: '#999999' }}>
-                    Quizzes are generated using gpt-4
-                </Typography>
                 <LimitAnnouncement user={user} login={login} />
                 <FormQuizGenerator />
 
