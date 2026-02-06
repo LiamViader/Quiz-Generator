@@ -109,9 +109,9 @@ function PrivacyPolicy() {
         </Box>
 
         {/* 6. Contact Us */}
-        <Box sx={{ mt: 6, p: 3, bgcolor: 'rgba(127, 255, 212, 0.05)', borderRadius: '1rem', border: '1px solid rgba(127, 255, 212, 0.2)' }}>
+        <Box sx={{ mt: 6, p: 3, bgcolor: 'rgba(5, 25, 35, 0.03)', borderRadius: '1rem', border: '1px solid rgba(0, 0, 0, 0.1)' }}>
           <Typography variant="h5" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
-            6. Contact Us
+            6. Questions
           </Typography>
           <Typography variant="body1">
             For any questions regarding your privacy, data deletion, or technical support, please reach out to:
