@@ -22,9 +22,6 @@ function Footer() {
           justifyContent="center"
           alignItems="center"
         >
-          <Typography variant="body2" color="#7fffd4" align="center" display={{ xs: 'none', sm: 'block' }}>
-            © {new Date().getFullYear()} Quiz Generator
-          </Typography>
           <Stack direction="row" spacing={3}>
             <Link
               component={RouterLink}
@@ -45,7 +42,7 @@ function Footer() {
               Terms of Service
             </Link>
           </Stack>
-          <Typography variant="body2" color="#7fffd4" align="center" display={{ xs: 'block', sm: 'none' }}>
+          <Typography variant="body2" color="#7fffd4" align="center" marginLeft={{ sm: '3rem' }}>
             © {new Date().getFullYear()} Quiz Generator
           </Typography>
         </Stack>
