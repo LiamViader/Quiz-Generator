@@ -1,74 +1,80 @@
-import React from "react";
-import { Box, Typography, Button } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Typography, Button, LinearProgress, Paper, Divider } from "@mui/material";
 import Question from "./Question";
-import { useState } from "react";
 
 function QuizOpened({ onSolved, quiz, onAnswerChange }) {
     const [quizState, setQuizState] = useState(quiz);
 
+    const questionsAnswered = quizState.questions?.filter(q => q.userAnswer != null).length || 0;
+    const totalQuestions = quizState.questions?.length || 0;
+    const progress = (questionsAnswered / totalQuestions) * 100;
 
     const handleAnswerChange = (questionIndex, newAnswer) => {
-        setQuizState(prevQuiz => {
-            const updatedQuiz = {
-                ...prevQuiz,
-                questions: prevQuiz.questions.map((question, index) =>
-                    index === questionIndex ? { ...question, userAnswer: newAnswer } : question
-                ),
-            };
-            return updatedQuiz;
-        });
+        setQuizState(prev => ({
+            ...prev,
+            questions: prev.questions.map((q, i) => i === questionIndex ? { ...q, userAnswer: newAnswer } : q)
+        }));
         onAnswerChange(quizState._id, questionIndex, newAnswer);
-    }
+    };
 
-    const onSend = (event) => {
-        setQuizState(prevQuiz => {
-            const updatedQuiz = {
-                ...prevQuiz,
-                solved: true
-            };
-            onSolved(updatedQuiz._id);
-            return updatedQuiz;
-        });
-    }
-
-    const correctAnswers = () => quizState.questions && quizState.questions.reduce((acumulador, question) => {
-        return acumulador + (question.userAnswer == question.correctAnswer ? 1 : 0);
-    }, 0);
-
-    const questionsAnswered = () => quizState.questions && quizState.questions.reduce((acumulador, question) => {
-        return acumulador + (question.userAnswer != null ? 1 : 0);
-    }, 0);
+    const correctAnswers = quizState.questions?.reduce((acc, q) => acc + (q.userAnswer == q.correctAnswer ? 1 : 0), 0);
 
     return (
-        <Box sx={{ backgroundColor: quizState.solved ? '#c6dff5' : 'background.paper', px: 4, py: 2 }}>
-            {quizState.solved &&
-                <div style={{ boxShadow: 'inset 0px 4px 2px gray', marginBottom: '1.5rem', backgroundColor: '#b9d1e6', padding: '1rem', borderRadius: '1.2rem', marginLeft: 'auto', marginRight: 'auto' }}>
-                    <Typography variant='h3' sx={{ color: '#334759', marginLeft: '1rem', marginTop: '0.7rem', fontSize: { xs: '1.5rem', md: '2rem' }, }}>Score: {correctAnswers()}/{quizState.questions && quizState.questions.length}</Typography>
-                    <hr style={{ backgroundColor: '#97aaba', border: 'none', height: '2px', width: '100%', marginLeft: '0', marginBottom: '0rem' }} />
-                </div>
-            }
+        <Box sx={{ bgcolor: quizState.solved ? '#f0f4f8' : '#ffffff', minHeight: '100%', pb: 4 }}>
+            {/* Progress Bar (només si no està resolt) */}
+            {!quizState.solved && (
+                <Box sx={{ width: '100%', position: 'sticky', top: 0, zIndex: 5, bgcolor: 'white' }}>
+                    <LinearProgress
+                        variant="determinate"
+                        value={progress}
+                        sx={{ height: 8, bgcolor: '#e0e0e0', '& .MuiLinearProgress-bar': { bgcolor: '#00cf89' } }}
+                    />
+                </Box>
+            )}
 
-            {quizState.questions && quizState.questions.map((question, index) => (
-                <Question solved={quizState.solved} question={question} questionIndex={index} key={question._id} onAnswerChange={handleAnswerChange} />
-            ))}
+            <Box sx={{ px: { xs: 2, md: 5 }, py: 3 }}>
+                {quizState.solved && (
+                    <Paper elevation={0} sx={{
+                        mb: 4, p: 3, textAlign: 'center', borderRadius: 4,
+                        background: 'linear-gradient(135deg, #7fffd4 0%, #00cf89 100%)',
+                        color: '#051923'
+                    }}>
+                        <Typography variant="h6" sx={{ opacity: 0.8, fontWeight: 600 }}>Final Score</Typography>
+                        <Typography variant="h2" sx={{ fontWeight: 900 }}>{correctAnswers()} / {totalQuestions}</Typography>
+                    </Paper>
+                )}
 
-            {!quizState.solved ?
-                <>
-                    <hr style={{ backgroundColor: 'gray', border: 'none', height: '1px', width: '50%', margin: '2rem 0', marginRight: 'auto', marginLeft: 'auto', marginBottom: '1rem' }} />
-                    <div style={{ display: 'flex', marginBottom: '1rem', alignItems: 'center', marginTop: '2rem' }}>
-                        <Button onClick={onSend} type="submit" variant="contained" sx={{ backgroundColor: '#00cf89', minWidth: '30%', '&:hover': { backgroundColor: '#00a16b', boxShadow: 'none' }, }}>
-                            Send
+                {quizState.questions?.map((question, index) => (
+                    <Question
+                        solved={quizState.solved}
+                        question={question}
+                        questionIndex={index}
+                        key={question._id}
+                        onAnswerChange={handleAnswerChange}
+                    />
+                ))}
+
+                {!quizState.solved && (
+                    <Box sx={{ mt: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
+                        <Button
+                            onClick={() => onSolved(quizState._id)}
+                            variant="contained"
+                            disabled={questionsAnswered < totalQuestions}
+                            sx={{
+                                py: 1.5, px: 4, borderRadius: 3, fontWeight: 'bold', fontSize: '1.1rem',
+                                textTransform: 'none', boxShadow: '0 8px 20px rgba(0, 207, 137, 0.3)',
+                                bgcolor: '#00cf89', '&:hover': { bgcolor: '#00a16b' }
+                            }}
+                        >
+                            Finish Quiz
                         </Button>
-                        <Typography variant="h7" sx={{ fontSize: { xs: '1rem', md: '1.2rem' }, color: quizState.questions && questionsAnswered() < quizState.questions.length && 'red', marginLeft: 'auto', }}>
-                            {questionsAnswered()}/{quizState.questions && quizState.questions.length} answered
+                        <Typography sx={{ fontWeight: 600, color: progress === 100 ? '#00cf89' : 'text.secondary' }}>
+                            {questionsAnswered} of {totalQuestions} answered
                         </Typography>
-                    </div>
-                </>
-                :
-                <>
-                </>
-            }
+                    </Box>
+                )}
+            </Box>
         </Box>
     );
 }
-export default QuizOpened
+export default QuizOpened;

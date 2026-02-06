@@ -1,82 +1,80 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Modal, Box, IconButton, Typography, Button, Fade } from '@mui/material';
+import React, { useRef } from 'react';
+import { Modal, Box, IconButton, Typography, Fade, Backdrop } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import QuizIcon from '@mui/icons-material/Quiz';
 import QuizOpened from './QuizOpened';
+
 function ModalQuizOpened({ onQuizSolved, onCloseModal, quiz, onAnswerChange }) {
   const modalContentRef = useRef(null);
 
-  const handleClose = () => {
-    onCloseModal();
-  }
-
-  const handleSolved = (quizId) => {
-    modalContentRef.current.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    })
-    onQuizSolved(quizId);
-  }
-
-  const style1 = {
+  const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '90vw',
-    maxWidth: '40rem',
-    bgcolor: '#051923',
-    boxShadow: 24,
-    borderRadius: 2,
-    maxHeight: '83vh',
-    overflowY: 'auto',
-    overflowWrap: 'break-word',
-    wordBreak: 'break-word',
+    width: { xs: '95vw', md: '45rem' },
+    bgcolor: '#0a1a23', // Una mica més clar que el fons total
+    boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+    borderRadius: 4,
+    maxHeight: '85vh',
+    display: 'flex',
+    flexDirection: 'column',
+    outline: 'none',
+    border: '1px solid rgba(127, 255, 212, 0.1)', // Borde de color menta molt subtil
   };
 
-
   return (
-    <div>
-      <Modal open={true} onClose={handleClose}>
-        <Box sx={style1} ref={modalContentRef}>
-          <div style={{ display: 'flex', alignItems: "center", padding: '1.2rem 2rem', overflowWrap: 'break-word', wordBreak: 'break-word' }}>
-            <QuizIcon sx={{ fontSize: '1.8rem', mr: 2, color: '#7fffd4' }} />
-            <Typography
-              variant="h6"
-              sx={{
-                mr: 4,
-                ml: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: '#7fffd4',
-                textDecoration: 'none',
-                fontSize: { xs: '1.1rem', md: '1.5rem' }
-              }}
-            >
+    <Modal
+      open={true}
+      onClose={onCloseModal}
+      closeAfterTransition
+      slots={{ backdrop: Backdrop }}
+      slotProps={{ backdrop: { timeout: 500, sx: { backdropFilter: 'blur(4px)' } } }}
+    >
+      <Fade in={true}>
+        <Box sx={style}>
+          {/* Header */}
+          <Box sx={{
+            p: 3,
+            display: 'flex',
+            alignItems: 'center',
+            background: 'linear-gradient(to bottom, #051923, #0a1a23)',
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            position: 'sticky',
+            top: 0,
+            zIndex: 10
+          }}>
+            <QuizIcon sx={{ fontSize: '2rem', mr: 2, color: '#7fffd4' }} />
+            <Typography variant="h5" sx={{
+              fontFamily: 'monospace',
+              fontWeight: 800,
+              color: '#7fffd4',
+              flexGrow: 1,
+              letterSpacing: '2px',
+              textTransform: 'uppercase'
+            }}>
               {quiz.name}
             </Typography>
-          </div>
+            <IconButton onClick={onCloseModal} sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#7fffd4' } }}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
 
-
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: 'white',
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <QuizOpened onSolved={handleSolved} quiz={quiz} onAnswerChange={onAnswerChange} />
-
+          {/* Content */}
+          <Box ref={modalContentRef} sx={{ overflowY: 'auto', p: 0 }}>
+            <QuizOpened
+              onSolved={(id) => {
+                modalContentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+                onQuizSolved(id);
+              }}
+              quiz={quiz}
+              onAnswerChange={onAnswerChange}
+            />
+          </Box>
         </Box>
-
-      </Modal>
-    </div>
+      </Fade>
+    </Modal>
   );
 }
 

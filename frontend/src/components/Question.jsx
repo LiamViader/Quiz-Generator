@@ -1,64 +1,71 @@
 import React from "react";
-import { Typography, Box, List, ListItem, RadioGroup, ListItemText, Radio, FormControlLabel } from "@mui/material";
-import { useState } from "react";
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
+import { Typography, Box, Radio, FormControlLabel, Paper, RadioGroup } from "@mui/material";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 function Question({ question, questionIndex, onAnswerChange, solved }) {
-
-    const [selectedAnswer, setSelectedAnswer] = useState(question.userAnswer);
-
-    const handleAnswerChange = (event) => {
-        document.activeElement.blur();
-        setSelectedAnswer(event.target.value);
-        onAnswerChange(questionIndex, event.target.value)
-    };
-
-    const correct = () => {
-        if (question.userAnswer == null) return false;
-        else return question.userAnswer == question.correctAnswer;
-    };
+    const isCorrect = question.userAnswer == question.correctAnswer;
 
     return (
-        <div style={{ backgroundColor: solved ? '#b9d1e6' : '#ededed', marginBottom: '1rem', borderRadius: '1.2rem', boxShadow: ' 0px 4px 11px gray' }}>
-            <div style={{ borderTopRightRadius: '1.2rem', borderTopLeftRadius: '1.2rem', padding: '0.2rem 1rem', backgroundColor: solved && correct() ? '#9bc5a7' : solved && !correct() ? '#c59b9b' : 'transparent' }}>
-                <Typography variant="h6" component="h2" sx={{ color: '#334759', marginBottom: '1rem', marginTop: '1rem', fontSize: { xs: '0.85rem', md: '0.95rem' }, wordBreak: 'break-word' }}>
-                    {questionIndex + 1}. {question.question}
+        <Paper elevation={0} sx={{
+            mb: 3, borderRadius: 4, overflow: 'hidden',
+            border: '1px solid',
+            borderColor: solved ? (isCorrect ? '#c3e6cb' : '#f5c6cb') : '#e0e0e0',
+            bgcolor: solved ? (isCorrect ? '#f0fff4' : '#fff5f5') : '#fafafa'
+        }}>
+            {/* Header Pregunta */}
+            <Box sx={{
+                p: 2.5,
+                bgcolor: solved ? (isCorrect ? '#d4edda' : '#f8d7da') : 'rgba(0,0,0,0.03)',
+                display: 'flex', alignItems: 'flex-start', gap: 1.5
+            }}>
+                <Typography sx={{ fontWeight: 800, color: '#334759', mt: 0.3 }}>{questionIndex + 1}.</Typography>
+                <Typography sx={{ fontWeight: 600, color: '#334759', fontSize: '1rem', lineHeight: 1.4 }}>
+                    {question.question}
                 </Typography>
-            </div>
+            </Box>
 
-            {!solved && <hr style={{ backgroundColor: 'gray', border: 'none', height: '1px', width: '90%', margin: '0 5px', marginLeft: 'auto', marginRight: 'auto', marginBottom: '1rem' }} />}
-            <RadioGroup value={selectedAnswer} onChange={handleAnswerChange}>
-                <List >
-                    {question.answers && question.answers.map((answer, index) => (
-                        <ListItem key={index}>
-                            <FormControlLabel
-                                value={index}
-                                control={<Radio disabled={solved} />}
-                                label={
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <ListItemText sx={{ color: '#334759', wordBreak: 'break-word' }} primaryTypographyProps={{ sx: { fontSize: { xs: '0.75rem', md: '0.8rem' } } }} primary={answer} />
+            <Box sx={{ p: 2 }}>
+                <RadioGroup value={question.userAnswer} onChange={(e) => onAnswerChange(questionIndex, e.target.value)}>
+                    {question.answers?.map((answer, index) => {
+                        const isUserChoice = question.userAnswer == index;
+                        const isCorrectAnswer = question.correctAnswer == index;
 
-                                        {solved &&
-                                            <>
-                                                {index == question.correctAnswer ?
-                                                    <CheckIcon sx={{ ml: 1, color: correct() && question.userAnswer == index ? 'green' : 'gray' }} />
-                                                    :
-                                                    (!correct() && index == question.userAnswer) && <ClearIcon sx={{ ml: 1, color: !correct() && question.userAnswer == index ? 'red' : 'gray' }} />
+                        let cardBg = 'transparent';
+                        if (solved) {
+                            if (isCorrectAnswer) cardBg = 'rgba(0, 207, 137, 0.1)';
+                            if (isUserChoice && !isCorrectAnswer) cardBg = 'rgba(244, 67, 54, 0.1)';
+                        }
 
-                                                }
-                                            </>
-                                        }
-
-                                    </Box>
-                                }
-                            />
-                        </ListItem>
-                    ))}
-                </List>
-            </RadioGroup>
-        </div>
+                        return (
+                            <Box key={index} sx={{
+                                borderRadius: 2, mb: 1, px: 2, py: 0.5,
+                                transition: 'all 0.2s',
+                                bgcolor: cardBg,
+                                '&:hover': { bgcolor: !solved ? 'rgba(0,0,0,0.04)' : cardBg }
+                            }}>
+                                <FormControlLabel
+                                    value={index}
+                                    disabled={solved}
+                                    control={<Radio size="small" sx={{ color: '#051923', '&.Mui-checked': { color: '#00cf89' } }} />}
+                                    label={
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
+                                            <Typography sx={{ fontSize: '0.9rem', color: '#334759', flexGrow: 1 }}>
+                                                {answer}
+                                            </Typography>
+                                            {solved && isCorrectAnswer && <CheckCircleIcon fontSize="small" sx={{ color: '#00cf89' }} />}
+                                            {solved && isUserChoice && !isCorrectAnswer && <CancelIcon fontSize="small" sx={{ color: '#f44336' }} />}
+                                        </Box>
+                                    }
+                                    sx={{ width: '100%', m: 0 }}
+                                />
+                            </Box>
+                        );
+                    })}
+                </RadioGroup>
+            </Box>
+        </Paper>
     );
 }
 
-export default Question
+export default Question;
