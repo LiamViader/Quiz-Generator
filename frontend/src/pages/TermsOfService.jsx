@@ -48,7 +48,7 @@ function TermsOfService() {
               </Typography>
             </li>
             <li>
-              <Typography variant="body1" sx={{ mb: 1, color: '#d32f2f', fontWeight: 'bold' }}>
+              <Typography variant="body1" sx={{ mb: 1 }}>
                 Training Data: You understand that the prompts you provide are shared with OpenAI and may be used to train their AI models as part of our cost-saving API configuration.
               </Typography>
             </li>
