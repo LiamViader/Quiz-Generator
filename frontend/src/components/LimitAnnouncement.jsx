@@ -49,7 +49,6 @@ function LimitAnnouncement({ user, login }) {
                   theme="outline"
                   shape="pill"
                   size="medium"
-                  width="250"
                   sx={{ backgroundColor: '#7fffd4' }}
                 />
               </Box>
