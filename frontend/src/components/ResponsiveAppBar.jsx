@@ -232,12 +232,9 @@ function ResponsiveAppBar({ pages }) {
                     onError={() => {
                       console.log('Login Failed');
                     }}
-                    type="standard"
                     theme="outline"
                     shape="pill"
-                    size="medium"
-                    text="signin_with"
-                    width="250px"
+                    size="large"
                   />
                 </Box>
               )}
