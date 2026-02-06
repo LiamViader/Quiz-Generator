@@ -10,7 +10,7 @@ function LimitAnnouncement({ user, login }) {
       <Box
         sx={{
           position: 'fixed',
-          top: '4rem',
+          top: '15%',
           left: '2rem',
           padding: '0.8rem',
           borderRadius: '1rem',
