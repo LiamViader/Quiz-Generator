@@ -234,7 +234,7 @@ function ResponsiveAppBar({ pages }) {
                     }}
                     theme="outline"
                     shape="pill"
-                    size="medium"
+                    size="large"
                   />
                 </Box>
               )}
