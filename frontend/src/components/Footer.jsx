@@ -12,7 +12,7 @@ function Footer() {
         mt: 'auto',
         backgroundColor: '#051923',
         color: 'white',
-        borderTop: '1px solid #7fffd4'
+        borderTop: '1px solid rgba(255,255,255,0.1)'
       }}
     >
       <Container maxWidth="lg">

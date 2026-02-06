@@ -47,7 +47,7 @@ function ResponsiveAppBar({ pages }) {
   }
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: '#051923', borderBottom: '1px solid #7fffd4', boxShadow: '0 4px 6px rgba(0,0,0,0.3)' }} >
+    <AppBar position="sticky" sx={{ backgroundColor: '#051923', borderBottom: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 4px 6px rgba(0,0,0,0.3)' }} >
       <Container maxWidth={false}>
         <Toolbar disableGutters>
 

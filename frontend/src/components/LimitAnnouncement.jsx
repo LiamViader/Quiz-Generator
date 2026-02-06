@@ -16,11 +16,11 @@ function LimitAnnouncement({ user, login }) {
           bottom: '10%',
           right: '2rem',
           padding: '0.8rem',
-          padding: '0.8rem',
+          paddingRight: '2rem',
           borderRadius: '1rem',
           background: '#051923',
           border: '1px solid',
-          borderColor: user ? '#7fffd4' : 'rgba(255, 255, 255, 0.1)',
+          borderColor: 'rgba(255, 255, 255, 0.1)',
           maxWidth: '300px', // Smaller width
           boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.5)',
           backdropFilter: 'blur(5px)',
