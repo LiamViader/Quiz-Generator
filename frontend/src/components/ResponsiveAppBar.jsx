@@ -124,7 +124,7 @@ function ResponsiveAppBar({ pages }) {
 
 
           {/* --- MIDDLE SECTION: NAV LINKS (Desktop Only) --- */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', gap: 2 }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'start', marginLeft: "3rem", gap: 2 }}>
             {pages.map((page) => {
               const isActive = location.pathname === page.rout;
               return (
