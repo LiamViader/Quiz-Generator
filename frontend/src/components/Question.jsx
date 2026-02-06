@@ -1,70 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography, Box, Radio, FormControlLabel, Paper, RadioGroup } from "@mui/material";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 function Question({ question, questionIndex, onAnswerChange, solved }) {
-    // Comparem com a Strings per evitar problemes de tipus (string vs number)
-    const isCorrect = String(question.userAnswer) === String(question.correctAnswer);
+    const [selectedAnswer, setSelectedAnswer] = useState(question.userAnswer);
+
+    const handleAnswerChange = (event) => {
+        document.activeElement.blur();
+        setSelectedAnswer(event.target.value);
+        onAnswerChange(questionIndex, event.target.value);
+    };
+
+    const correct = () => {
+        if (question.userAnswer == null) return false;
+        return question.userAnswer == question.correctAnswer;
+    };
+
+    // Colors segons la teva lògica de "solved"
+    const getHeaderColor = () => {
+        if (!solved) return 'rgba(0,0,0,0.03)';
+        return correct() ? '#d4edda' : '#f8d7da';
+    };
 
     return (
         <Paper elevation={0} sx={{
-            mb: 3, borderRadius: 4, overflow: 'hidden',
-            border: '1px solid',
-            // Si està resolt, el borde de la targeta indica si la pregunta és correcta o no
-            borderColor: solved ? (isCorrect ? '#4caf50' : '#f44336') : '#e0e0e0',
-            bgcolor: solved ? (isCorrect ? '#fafffa' : '#fffafa') : '#ffffff',
+            mb: 3, borderRadius: 3, overflow: 'hidden', border: '1px solid #e0e0e0',
+            bgcolor: solved ? (correct() ? '#fafffa' : '#fffafa') : '#fafafa'
         }}>
-            {/* Enunciat */}
-            <Box sx={{ p: 2, bgcolor: solved ? (isCorrect ? '#e8f5e9' : '#ffebee') : '#f8f9fa' }}>
-                <Typography sx={{ fontWeight: 700, color: '#334759' }}>
+            {/* Header de la pregunta */}
+            <Box sx={{ p: 2, bgcolor: getHeaderColor(), borderBottom: '1px solid #e0e0e0' }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#334759', fontSize: '0.95rem' }}>
                     {questionIndex + 1}. {question.question}
                 </Typography>
             </Box>
 
-            <Box sx={{ p: 2 }}>
-                <RadioGroup
-                    value={question.userAnswer}
-                    onChange={(e) => onAnswerChange(questionIndex, e.target.value)}
-                >
+            {/* Respostes */}
+            <Box sx={{ p: 1.5 }}>
+                <RadioGroup value={selectedAnswer} onChange={handleAnswerChange}>
                     {question.answers?.map((answer, index) => {
-                        const isThisCorrect = String(index) === String(question.correctAnswer);
-                        const isThisUserChoice = String(index) === String(question.userAnswer);
-
-                        // LÒGICA DE COLORS POST-FINALITZAR:
-                        let bgColor = 'transparent';
-                        let border = '1px solid transparent';
-
-                        if (solved) {
-                            if (isThisCorrect) {
-                                // La correcta sempre es marca en verd
-                                bgColor = '#c8e6c9';
-                                border = '1px solid #4caf50';
-                            } else if (isThisUserChoice && !isThisCorrect) {
-                                // Si l'usuari ha triat aquesta i és malament, es marca en vermell
-                                bgColor = '#ffcdd2';
-                                border = '1px solid #f44336';
-                            }
-                        }
+                        const isUserAnswer = selectedAnswer == index;
+                        const isCorrectAnswer = question.correctAnswer == index;
 
                         return (
                             <Box key={index} sx={{
-                                borderRadius: 2, mb: 1, px: 1,
-                                bgcolor: bgColor,
-                                border: border,
-                                transition: 'all 0.2s ease'
+                                borderRadius: 2, px: 2, mb: 0.5,
+                                bgcolor: solved && isCorrectAnswer ? 'rgba(0, 207, 137, 0.1)' : 'transparent',
+                                border: solved && isCorrectAnswer ? '1px solid rgba(0, 207, 137, 0.2)' : '1px solid transparent'
                             }}>
                                 <FormControlLabel
                                     value={index}
-                                    disabled={solved} // Bloquegem ràdios un cop finalitzat
-                                    control={<Radio size="small" />}
+                                    control={<Radio disabled={solved} size="small" />}
                                     label={
-                                        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', py: 1 }}>
-                                            <Typography sx={{ flexGrow: 1, fontSize: '0.9rem' }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', py: 1 }}>
+                                            <Typography sx={{ fontSize: '0.85rem', color: '#334759', flexGrow: 1 }}>
                                                 {answer}
                                             </Typography>
-                                            {solved && isThisCorrect && <CheckCircleIcon sx={{ color: '#2e7d32', ml: 1 }} />}
-                                            {solved && isThisUserChoice && !isThisCorrect && <CancelIcon sx={{ color: '#d32f2f', ml: 1 }} />}
+
+                                            {solved && (
+                                                <>
+                                                    {isCorrectAnswer ? (
+                                                        <CheckIcon fontSize="small" sx={{ ml: 1, color: correct() && isUserAnswer ? '#2e7d32' : '#9e9e9e' }} />
+                                                    ) : (
+                                                        (isUserAnswer && !correct()) && <ClearIcon fontSize="small" sx={{ ml: 1, color: '#d32f2f' }} />
+                                                    )}
+                                                </>
+                                            )}
                                         </Box>
                                     }
                                     sx={{ width: '100%', m: 0 }}
