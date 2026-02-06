@@ -91,7 +91,7 @@ function PrivacyPolicy() {
             We retain your information as long as your account is active. You have the right to request the deletion of your data at any time.
           </Typography>
           <Typography variant="body1">
-            If you wish to delete your account and all associated quizzes, please contact us at the email address provided below. We will process your request within 72 hours.
+            If you wish to delete your account and all associated data, please contact us at the email address provided below. We will process your request within 30 days.
           </Typography>
         </Box>
 
