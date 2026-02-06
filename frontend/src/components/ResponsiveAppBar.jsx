@@ -237,6 +237,7 @@ function ResponsiveAppBar({ pages }) {
                     shape="pill"
                     size="medium"
                     text="signin_with"
+                    width="250px"
                   />
                 </Box>
               )}
