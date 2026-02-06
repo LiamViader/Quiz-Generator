@@ -22,7 +22,7 @@ function Footer() {
           justifyContent="center"
           alignItems="center"
         >
-          <Typography variant="body2" color="#7fffd4" align="center" display={{ xs: 'hidden', sm: 'block' }}>
+          <Typography variant="body2" color="#7fffd4" align="center" display={{ xs: 'none', sm: 'block' }}>
             © {new Date().getFullYear()} Quiz Generator
           </Typography>
           <Stack direction="row" spacing={3}>
@@ -45,7 +45,7 @@ function Footer() {
               Terms of Service
             </Link>
           </Stack>
-          <Typography variant="body2" color="#7fffd4" align="center" display={{ xs: 'block', sm: 'hidden' }}>
+          <Typography variant="body2" color="#7fffd4" align="center" display={{ xs: 'block', sm: 'none' }}>
             © {new Date().getFullYear()} Quiz Generator
           </Typography>
         </Stack>
