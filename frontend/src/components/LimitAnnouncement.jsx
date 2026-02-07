@@ -46,7 +46,7 @@ function LimitAnnouncement({ user, login }) {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <CheckCircleIcon sx={{ color: '#7fffd4', fontSize: '1.2rem' }} />
             <Typography variant="body2" sx={{ color: 'white', fontSize: '0.8rem' }}>
-              You have <b>{Math.max(0, (user.personalLimit || 10) - (user.dailyPersonalUsage || 0))}</b> generations left today.
+              You have <b>{user.personalLimit ? (Math.max(0, (user.personalLimit || 5) - (user.dailyPersonalUsage || 0))) : ""}</b> generations left today.
             </Typography>
           </Box>
         ) : (

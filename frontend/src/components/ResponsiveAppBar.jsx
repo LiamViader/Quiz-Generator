@@ -175,7 +175,7 @@ function ResponsiveAppBar({ pages }) {
             {user ? (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <Typography sx={{ color: '#7fffd4', fontFamily: 'monospace', display: { xs: 'none', sm: 'block' } }}>
-                  Remaining: {user.personalLimit || "?"}
+                  Remaining: {user.personalLimit ? (Math.max(0, (user.personalLimit || 5) - (user.dailyPersonalUsage || 0))) : ""}
                 </Typography>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid transparent', '&:hover': { border: '2px solid #7fffd4', transition: 'border 0.2s' } }}>
