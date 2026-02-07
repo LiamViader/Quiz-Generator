@@ -18,7 +18,7 @@ export function constructQuizPrompt(topic: string, difficulty: string, numberQue
       JSON OUTPUT FORMAT:
       Return ONLY a valid JSON object.
 
-      Ensure the JSON is valid and contains no other text.
+      Ensure the JSON is valid and contains no other text. Ensure the parameters are followed and the test is as difficult as the configuration says.
     `;
 
   return [
