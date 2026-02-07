@@ -13,7 +13,7 @@ function LimitAnnouncement({ user, login }) {
       <Box
         sx={{
           position: 'fixed',
-          bottom: '10%',
+          bottom: '2rem',
           right: '2rem',
           padding: '0.8rem',
           paddingRight: '2rem',
@@ -66,7 +66,7 @@ function LimitAnnouncement({ user, login }) {
                   }}
                   theme="outline"
                   shape="pill"
-                  size="medium"
+                  size="large"
                   sx={{ backgroundColor: '#7fffd4' }}
                 />
               </Box>
